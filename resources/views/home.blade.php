@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Dashboard Koperasi Karyawan PT Presindo Central')
+@section('title','Dashboard Uangku')
 
 @section('content')
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

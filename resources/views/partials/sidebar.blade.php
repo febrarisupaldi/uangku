@@ -9,7 +9,7 @@
             <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
             <span class="sidebar-label">Dashboard</span>
         </a>
-        <a href="/members" class="flex items-center gap-3 py-2 px-4 rounded hover:bg-green-600">
+        <a href="/wallets" class="flex items-center gap-3 py-2 px-4 rounded hover:bg-green-600">
             <i data-lucide="wallet" class="w-5 h-5"></i>
             <span class="sidebar-label">Dompet</span>
         </a>
@@ -39,9 +39,9 @@
         </div>
         </button>
         <div id="submenu-transaction" class="submenu hidden ml-10 mt-1 space-y-1 overflow-hidden transition-all">
-            <a href="/admin/users" class="block text-md py-1 px-2 rounded hover:bg-green-600">Pemasukan</a>
-            <a href="#" class="block text-md py-1 px-2 rounded hover:bg-green-600">Pengeluaran</a>
-            <a href="#" class="block text-md py-1 px-2 rounded hover:bg-green-600">Mutasi Kas</a>
+            <a href="/admin/users" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="banknote-arrow-down" class="w-4 h-4"></i> Pemasukan</a>
+            <a href="#" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="banknote-arrow-up" class="w-4 h-4"></i>Pengeluaran</a>
+            <a href="#" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="refresh-ccw" class="w-4 h-4"></i>Mutasi Kas</a>
         </div>
     </div>
 
@@ -75,8 +75,7 @@
         </div>
         </button>
         <div id="submenu-admin" class="submenu hidden ml-10 mt-1 space-y-1 overflow-hidden transition-all">
-            <a href="/admin/users" class="block text-md py-1 px-2 rounded hover:bg-green-600">Users</a>
-            <a href="#" class="block text-md py-1 px-2 rounded hover:bg-green-600">Roles</a>
+            <a href="/admin/users" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="circle-user-round" class="w-4 h-4"></i>Users</a>
         </div>
     </div>
     </nav>
