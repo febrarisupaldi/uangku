@@ -1,6 +1,6 @@
 -- MariaDB dump 10.17  Distrib 10.4.11-MariaDB, for Win64 (AMD64)
 --
--- Host: 127.0.0.1    Database: my_money_management
+-- Host: 127.0.0.1    Database: uangku
 -- ------------------------------------------------------
 -- Server version	10.4.11-MariaDB
 
@@ -16,27 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `wallet_types`
+-- Table structure for table `jobs`
 --
 
-DROP TABLE IF EXISTS `wallet_types`;
+DROP TABLE IF EXISTS `jobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `wallet_types` (
-  `id` smallint(6) NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `jobs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attempts` tinyint(3) unsigned NOT NULL,
+  `reserved_at` int(10) unsigned DEFAULT NULL,
+  `available_at` int(10) unsigned NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `jobs_queue_index` (`queue`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `wallet_types`
+-- Dumping data for table `jobs`
 --
 
-LOCK TABLES `wallet_types` WRITE;
-/*!40000 ALTER TABLE `wallet_types` DISABLE KEYS */;
-INSERT INTO `wallet_types` VALUES (1,'Cash'),(2,'E-Wallet'),(3,'Bank');
-/*!40000 ALTER TABLE `wallet_types` ENABLE KEYS */;
+LOCK TABLES `jobs` WRITE;
+/*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-28  9:58:37
+-- Dump completed on 2025-04-28  9:58:36

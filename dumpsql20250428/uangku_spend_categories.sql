@@ -1,6 +1,6 @@
 -- MariaDB dump 10.17  Distrib 10.4.11-MariaDB, for Win64 (AMD64)
 --
--- Host: 127.0.0.1    Database: my_money_management
+-- Host: 127.0.0.1    Database: uangku
 -- ------------------------------------------------------
 -- Server version	10.4.11-MariaDB
 
@@ -16,35 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `wallets`
+-- Table structure for table `spend_categories`
 --
 
-DROP TABLE IF EXISTS `wallets`;
+DROP TABLE IF EXISTS `spend_categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `wallets` (
+CREATE TABLE `spend_categories` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) unsigned DEFAULT NULL,
-  `wallet_type_id` smallint(6) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
-  `balance` decimal(16,2) DEFAULT 0.00,
+  `logo` varchar(50) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  KEY `wallet_type_id` (`wallet_type_id`),
-  CONSTRAINT `wallets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `wallets_ibfk_2` FOREIGN KEY (`wallet_type_id`) REFERENCES `wallet_types` (`id`)
+  CONSTRAINT `spend_categories_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `wallets`
+-- Dumping data for table `spend_categories`
 --
 
-LOCK TABLES `wallets` WRITE;
-/*!40000 ALTER TABLE `wallets` DISABLE KEYS */;
-/*!40000 ALTER TABLE `wallets` ENABLE KEYS */;
+LOCK TABLES `spend_categories` WRITE;
+/*!40000 ALTER TABLE `spend_categories` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spend_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -56,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-28  9:58:36
+-- Dump completed on 2025-04-28  9:58:37

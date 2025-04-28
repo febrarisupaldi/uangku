@@ -1,6 +1,6 @@
 -- MariaDB dump 10.17  Distrib 10.4.11-MariaDB, for Win64 (AMD64)
 --
--- Host: 127.0.0.1    Database: my_money_management
+-- Host: 127.0.0.1    Database: uangku
 -- ------------------------------------------------------
 -- Server version	10.4.11-MariaDB
 
@@ -16,34 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `credit_card_payments`
+-- Table structure for table `credit_card_transactions`
 --
 
-DROP TABLE IF EXISTS `credit_card_payments`;
+DROP TABLE IF EXISTS `credit_card_transactions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `credit_card_payments` (
+CREATE TABLE `credit_card_transactions` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `credit_card_id` bigint(20) unsigned DEFAULT NULL,
-  `from_wallet_id` bigint(20) unsigned DEFAULT NULL,
   `amount` decimal(16,2) DEFAULT NULL,
-  `payment_date` date DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `description` varchar(100) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `is_installment` tinyint(1) DEFAULT NULL,
+  `installment_months` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `credit_card_id` (`credit_card_id`),
-  KEY `from_wallet_id` (`from_wallet_id`),
-  CONSTRAINT `credit_card_payments_ibfk_1` FOREIGN KEY (`credit_card_id`) REFERENCES `credit_cards` (`id`),
-  CONSTRAINT `credit_card_payments_ibfk_2` FOREIGN KEY (`from_wallet_id`) REFERENCES `wallets` (`id`)
+  CONSTRAINT `credit_card_transactions_ibfk_1` FOREIGN KEY (`credit_card_id`) REFERENCES `credit_cards` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `credit_card_payments`
+-- Dumping data for table `credit_card_transactions`
 --
 
-LOCK TABLES `credit_card_payments` WRITE;
-/*!40000 ALTER TABLE `credit_card_payments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `credit_card_payments` ENABLE KEYS */;
+LOCK TABLES `credit_card_transactions` WRITE;
+/*!40000 ALTER TABLE `credit_card_transactions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `credit_card_transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
