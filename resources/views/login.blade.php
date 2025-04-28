@@ -14,9 +14,9 @@
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex items-center justify-center transition-colors duration-300">
   <div class="w-full max-w-md p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-  
-	<div class="flex justify-center mb-6">
-      <img src="{{ asset('assets/img/logo.jpg')}}" alt="Logo Koperasi" class="h-16" />
+
+	<div class="flex justify-center">
+      <img src="{{ asset('assets/img/logo3.png')}}" alt="Logo Uangku" class="" />
     </div>
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-2xl font-bold">Login</h2>
@@ -40,7 +40,7 @@
         Login
       </button>
     </form>
-	
+
 	<p class="text-center text-xs text-gray-400 py-2">
       © 2025 Koperasi Karyawan
     </p>
@@ -78,6 +78,6 @@
 </body>
 </html>
 <!--
-  This code is a simple login page using Tailwind CSS and Lucide icons. 
+  This code is a simple login page using Tailwind CSS and Lucide icons.
   It includes a logo, a form for username and password, and a dark mode toggle button.
   The dark mode preference is stored in local storage. -->

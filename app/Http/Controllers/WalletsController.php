@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Database\QueryException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class WalletsController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $wallets = DB::table('uangku.wallets')
             ->join("uangku.users","wallets.user_id","=","users.id")
@@ -24,14 +26,14 @@ class WalletsController extends Controller
         return view('wallets.index', compact('wallets'));
     }
 
-    public function create()
+    public function create(): View
     {
         $wallet_types = DB::table('uangku.wallet_types')->get();
         $users = DB::table('uangku.users')->get();
         return view('wallets.create', compact('wallet_types', 'users'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         try {
             $validated = $request->validate([
@@ -39,13 +41,13 @@ class WalletsController extends Controller
                 'wallet_type_id' => 'required|exists:wallet_types,id',
                 'user_id' => 'required|exists:users,id',
             ]);
-    
+
             DB::table('uangku.wallets')->insert([
                 'name' => $validated['wallet_name'],
                 'wallet_type_id' => $validated['wallet_type_id'],
                 'user_id' => $validated['user_id'],
             ]);
-    
+
             return redirect()->route('wallets.index')->with('success', 'Wallet created successfully.');
         } catch (QueryException $e) {
             return redirect()->route('wallets.index')->with('error', 'Failed create wallet: ' . $e->getMessage());
