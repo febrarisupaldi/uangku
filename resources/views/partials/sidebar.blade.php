@@ -1,7 +1,7 @@
 <!-- Sidebar -->
 <aside id="sidebar" class="sidebar fixed lg:static z-40 lg:z-auto top-0 left-0 h-full w-64 transition-all duration-300 bg-green-700 text-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 flex flex-col -translate-x-full lg:translate-x-0">
-    <div class="p-4 flex items-center justify-center h-20 gap-4 mb-6">
-        <img src="{{ asset('assets/img/logo.png')}}" alt="Logo Koperasi" class="object-cover sidebar-label">
+    <div class="p-4 flex items-center justify-center gap-4 mb-6">
+        <img src="{{ asset('assets/img/logo3.png')}}" alt="Logo Koperasi" class="object-cover sidebar-label">
         <h1 class="text-2xl font-bold text-white" id="title-logo"></h1>
     </div>
     <nav class="flex-1 px-2 space-y-2 overflow-y-auto text-gray-100">
