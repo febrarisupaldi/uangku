@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
 
 class WalletsController extends Controller
 {
@@ -20,15 +21,18 @@ class WalletsController extends Controller
                 "wallets.name",
                 "wallets.balance",
                 "wallet_types.name as wallet_type_name",
-                "users.name as user_name")
-            ->get();
-        // Logic to retrieve and display wallets
+                "users.name as user_name");
+            if(Auth::user()->user_category_id == 2){
+                $wallets = $wallets->where("users.id","=",Auth::user()->id);
+            }
+            $wallets = $wallets->get();
         return view('wallets.index', compact('wallets'));
     }
 
     public function create(): View
     {
         $wallet_types = DB::table('uangku.wallet_types')->get();
+        
         $users = DB::table('uangku.users')->get();
         return view('wallets.create', compact('wallet_types', 'users'));
     }
