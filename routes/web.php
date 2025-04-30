@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\CreditCardsController;
+use App\Http\Controllers\IncomesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WalletsController;
 use Illuminate\Support\Facades\Route;
@@ -43,9 +44,24 @@ Route::middleware('auth')->group(function () {
     ])->name('wallets.store');
 
     Route::get('/incomes', [
-        IncomeController::class,
+        IncomesController::class,
         'index'
     ])->name('incomes.index');
+
+    Route::get('/credit-cards', [
+        CreditCardsController::class,
+        'index'
+    ])->name('credit.cards.index');
+
+    Route::get('/credit-cards/create', [
+        CreditCardsController::class,
+        'create'
+    ])->name('credit.cards.create');
+
+    Route::post('/credit-cards', [
+        CreditCardsController::class,
+        'store'
+    ])->name('credit.cards.store');
 });
 
 

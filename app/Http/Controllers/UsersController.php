@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -65,5 +66,14 @@ class UsersController extends Controller
         } else {
             return redirect()->route('users.show.login')->with('error', 'Invalid credentials');
         }
+    }
+
+    public static function get_users(): Collection{
+        $users = DB::table('uangku.users');
+        if(Auth::user()->user_category_id == 2){
+            $users = $users->where("users.id","=",Auth::user()->id);
+        }
+        $users = $users->get();
+        return $users;
     }
 }

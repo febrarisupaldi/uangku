@@ -16,34 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `job_batches`
+-- Table structure for table `wallet_types`
 --
 
-DROP TABLE IF EXISTS `job_batches`;
+DROP TABLE IF EXISTS `wallet_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `job_batches` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `total_jobs` int(11) NOT NULL,
-  `pending_jobs` int(11) NOT NULL,
-  `failed_jobs` int(11) NOT NULL,
-  `failed_job_ids` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `options` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cancelled_at` int(11) DEFAULT NULL,
-  `created_at` int(11) NOT NULL,
-  `finished_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `wallet_types` (
+  `id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `job_batches`
+-- Dumping data for table `wallet_types`
 --
 
-LOCK TABLES `job_batches` WRITE;
-/*!40000 ALTER TABLE `job_batches` DISABLE KEYS */;
-/*!40000 ALTER TABLE `job_batches` ENABLE KEYS */;
+LOCK TABLES `wallet_types` WRITE;
+/*!40000 ALTER TABLE `wallet_types` DISABLE KEYS */;
+INSERT INTO `wallet_types` VALUES (3,'Bank'),(1,'Cash'),(2,'E-Wallet'),(6,'Hutang'),(8,'Investasi'),(5,'Kartu Kredit'),(7,'Piutang');
+/*!40000 ALTER TABLE `wallet_types` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-29 16:03:22
+-- Dump completed on 2025-04-30 15:51:36

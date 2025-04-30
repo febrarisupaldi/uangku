@@ -16,34 +16,38 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `credit_card_payments`
+-- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `credit_card_payments`;
+DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `credit_card_payments` (
+CREATE TABLE `users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `credit_card_id` bigint(20) unsigned DEFAULT NULL,
-  `from_wallet_id` bigint(20) unsigned DEFAULT NULL,
-  `amount` decimal(16,2) DEFAULT NULL,
-  `payment_date` date DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_category_id` bigint(20) unsigned DEFAULT 2,
+  `status_user` tinyint(1) DEFAULT 1,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `credit_card_id` (`credit_card_id`),
-  KEY `from_wallet_id` (`from_wallet_id`),
-  CONSTRAINT `credit_card_payments_ibfk_1` FOREIGN KEY (`credit_card_id`) REFERENCES `credit_cards` (`id`),
-  CONSTRAINT `credit_card_payments_ibfk_2` FOREIGN KEY (`from_wallet_id`) REFERENCES `wallets` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  UNIQUE KEY `users_email_unique` (`email`),
+  KEY `user_category_id` (`user_category_id`),
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`user_category_id`) REFERENCES `user_categories` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `credit_card_payments`
+-- Dumping data for table `users`
 --
 
-LOCK TABLES `credit_card_payments` WRITE;
-/*!40000 ALTER TABLE `credit_card_payments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `credit_card_payments` ENABLE KEYS */;
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Febrari Supaldi','febrarisupaldi@gmail.com',NULL,'$argon2i$v=19$m=65536,t=4,p=1$VjZRRjBNMlhEQmliUVkvTQ$fIvRvoX4NUQxybyU7MsJeozF5qUXPo6XnG6VDPcGB2M',1,1,NULL,'2025-04-28 08:44:53',NULL),(5,'Paldi','contoh@gmail.com','2025-04-28 21:47:54','$argon2i$v=19$m=65536,t=4,p=1$ZXlnRVdtYnZRSDJ0LmJ3bg$U0UrNrW5pdZGmwYYRIMbpzAly2BRXfubZJDwVuug+p0',2,1,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-29 16:03:22
+-- Dump completed on 2025-04-30 15:51:35

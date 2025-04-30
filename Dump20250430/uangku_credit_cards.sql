@@ -16,32 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `failed_jobs`
+-- Table structure for table `credit_cards`
 --
 
-DROP TABLE IF EXISTS `failed_jobs`;
+DROP TABLE IF EXISTS `credit_cards`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `failed_jobs` (
+CREATE TABLE `credit_cards` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `wallet_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `limit` decimal(16,2) DEFAULT NULL,
+  `billing_day` smallint(6) DEFAULT NULL,
+  `outstanding_balance` decimal(16,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  UNIQUE KEY `id` (`id`,`name`),
+  UNIQUE KEY `wallet_id` (`wallet_id`),
+  CONSTRAINT `credit_cards_ibfk_1` FOREIGN KEY (`wallet_id`) REFERENCES `wallets` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `failed_jobs`
+-- Dumping data for table `credit_cards`
 --
 
-LOCK TABLES `failed_jobs` WRITE;
-/*!40000 ALTER TABLE `failed_jobs` DISABLE KEYS */;
-/*!40000 ALTER TABLE `failed_jobs` ENABLE KEYS */;
+LOCK TABLES `credit_cards` WRITE;
+/*!40000 ALTER TABLE `credit_cards` DISABLE KEYS */;
+INSERT INTO `credit_cards` VALUES (1,4,'BCA',20000000.00,20,20000000.00);
+/*!40000 ALTER TABLE `credit_cards` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-29 16:03:21
+-- Dump completed on 2025-04-30 15:51:36

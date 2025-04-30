@@ -16,12 +16,14 @@ class WalletsController extends Controller
         $wallets = DB::table('uangku.wallets')
             ->join("uangku.users","wallets.user_id","=","users.id")
             ->join("uangku.wallet_types","wallets.wallet_type_id","=","wallet_types.id")
+            ->join("uangku.wallet_details","wallets.id","=","wallet_details.wallet_id")
             ->select(
                 "wallets.id",
-                "wallets.name",
-                "wallets.balance",
+                "wallet_details.name",
+                "wallet_details.balance",
                 "wallet_types.name as wallet_type_name",
-                "users.name as user_name");
+                "users.name as user_name")
+            ->whereIn("wallet_types.id",[1,2,3]);
             if(Auth::user()->user_category_id == 2){
                 $wallets = $wallets->where("users.id","=",Auth::user()->id);
             }
@@ -31,9 +33,12 @@ class WalletsController extends Controller
 
     public function create(): View
     {
-        $wallet_types = DB::table('uangku.wallet_types')->get();
-        
-        $users = DB::table('uangku.users')->get();
+        $wallet_types = DB::table('uangku.wallet_types')->whereIn("id",[1,2,3])->get();
+        $users = DB::table('uangku.users');
+        if(Auth::user()->user_category_id == 2){
+            $users = $users->where("users.id","=",Auth::user()->id);
+        }
+        $users = $users->get();
         return view('wallets.create', compact('wallet_types', 'users'));
     }
 
@@ -46,15 +51,21 @@ class WalletsController extends Controller
                 'user_id' => 'required|exists:users,id',
             ]);
 
-            DB::table('uangku.wallets')->insert([
-                'name' => $validated['wallet_name'],
-                'wallet_type_id' => $validated['wallet_type_id'],
-                'user_id' => $validated['user_id'],
-            ]);
+            DB::transaction(function() use ($validated) {
+                $id = DB::table('uangku.wallets')->insertGetId([
+                    'wallet_type_id' => $validated['wallet_type_id'],
+                    'user_id' => $validated['user_id'],
+                ]);
 
-            return redirect()->route('wallets.index')->with('success', 'Wallet created successfully.');
+                DB::table('uangku.wallet_details')->insert([
+                    'name' => $validated['wallet_name'],
+                    'wallet_id' => $id,
+                ]);
+            });
+
+            return redirect()->route('wallets.index')->with('success', 'Dompet berhasil dibuat');
         } catch (QueryException $e) {
-            return redirect()->route('wallets.index')->with('error', 'Failed create wallet: ' . $e->getMessage());
+            return redirect()->route('wallets.index')->with('error', 'Gagal Membuat dompet: ' . $e->getMessage());
         }
     }
 }

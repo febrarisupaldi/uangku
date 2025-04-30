@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="{{ asset('assets/img/logo.jpg') }}" type="image/x-icon" />
+  <link rel="icon" href="{{ asset('assets/img/logo3.png') }}" type="image/x-icon" />
   <title>@yield('title','Uangku')</title>
   @vite(['resources/css/app.css', 'resources/js/app.js'])
   <style>

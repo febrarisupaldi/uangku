@@ -16,33 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `credit_card_transactions`
+-- Table structure for table `income_categories`
 --
 
-DROP TABLE IF EXISTS `credit_card_transactions`;
+DROP TABLE IF EXISTS `income_categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `credit_card_transactions` (
+CREATE TABLE `income_categories` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `credit_card_id` bigint(20) unsigned DEFAULT NULL,
-  `amount` decimal(16,2) DEFAULT NULL,
-  `description` varchar(100) DEFAULT NULL,
-  `date` date DEFAULT NULL,
-  `is_installment` tinyint(1) DEFAULT NULL,
-  `installment_months` smallint(6) DEFAULT NULL,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `logo` varchar(50) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  KEY `credit_card_id` (`credit_card_id`),
-  CONSTRAINT `credit_card_transactions_ibfk_1` FOREIGN KEY (`credit_card_id`) REFERENCES `credit_cards` (`id`)
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `income_categories_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `credit_card_transactions`
+-- Dumping data for table `income_categories`
 --
 
-LOCK TABLES `credit_card_transactions` WRITE;
-/*!40000 ALTER TABLE `credit_card_transactions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `credit_card_transactions` ENABLE KEYS */;
+LOCK TABLES `income_categories` WRITE;
+/*!40000 ALTER TABLE `income_categories` DISABLE KEYS */;
+/*!40000 ALTER TABLE `income_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-29 16:03:22
+-- Dump completed on 2025-04-30 15:51:35
