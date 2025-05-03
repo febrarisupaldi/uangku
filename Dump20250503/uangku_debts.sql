@@ -16,28 +16,39 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `wallet_types`
+-- Table structure for table `debts`
 --
 
-DROP TABLE IF EXISTS `wallet_types`;
+DROP TABLE IF EXISTS `debts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `wallet_types` (
-  `id` smallint(6) NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) DEFAULT NULL,
+CREATE TABLE `debts` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `wallet_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `total_amount` decimal(18,2) NOT NULL,
+  `remaining` decimal(18,2) NOT NULL,
+  `start_date` date NOT NULL,
+  `due_date` date DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `debt_status_id` char(1) NOT NULL DEFAULT 'A',
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+  KEY `debt_status_id` (`debt_status_id`),
+  KEY `wallet_id` (`wallet_id`),
+  CONSTRAINT `debts_ibfk_1` FOREIGN KEY (`debt_status_id`) REFERENCES `debt_statuses` (`id`),
+  CONSTRAINT `debts_ibfk_2` FOREIGN KEY (`wallet_id`) REFERENCES `wallets` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `wallet_types`
+-- Dumping data for table `debts`
 --
 
-LOCK TABLES `wallet_types` WRITE;
-/*!40000 ALTER TABLE `wallet_types` DISABLE KEYS */;
-INSERT INTO `wallet_types` VALUES (3,'Bank'),(1,'Cash'),(2,'E-Wallet'),(6,'Hutang'),(8,'Investasi'),(5,'Kartu Kredit'),(7,'Piutang');
-/*!40000 ALTER TABLE `wallet_types` ENABLE KEYS */;
+LOCK TABLES `debts` WRITE;
+/*!40000 ALTER TABLE `debts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `debts` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-30 15:51:36
+-- Dump completed on 2025-05-03 13:09:40

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CreditCardsController;
+use App\Http\Controllers\DebtsController;
 use App\Http\Controllers\IncomesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WalletsController;
@@ -62,6 +63,21 @@ Route::middleware('auth')->group(function () {
         CreditCardsController::class,
         'store'
     ])->name('credit.cards.store');
+
+    Route::get('/debts', [
+        DebtsController::class,
+        'index'
+    ])->name('debts.index');
+
+    Route::get('/debts/create', [
+        DebtsController::class,
+        'create'
+    ])->name('debts.create');
+
+    Route::post('/debts', [
+        DebtsController::class,
+        'store'
+    ])->name('debts.store');
 });
 
 

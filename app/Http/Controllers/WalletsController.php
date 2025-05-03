@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
@@ -67,5 +68,32 @@ class WalletsController extends Controller
         } catch (QueryException $e) {
             return redirect()->route('wallets.index')->with('error', 'Gagal Membuat dompet: ' . $e->getMessage());
         }
+    }
+
+    public static function get_wallets(iterable $id): Collection
+    {
+        $wallets = DB::table('uangku.wallets')
+            ->join("uangku.wallet_types","wallets.wallet_type_id","=","wallet_types.id")
+            ->join("uangku.wallet_details","wallets.id","=","wallet_details.wallet_id")
+            ->join("uangku.users","wallets.user_id","=","users.id")
+            ->select(
+                "wallets.id",
+                "wallet_details.name",
+                "wallet_types.name as wallet_type_name",
+                "wallet_details.balance")
+            ->whereIn("wallet_types.id",$id);
+        if(Auth::user()->user_category_id == 2){
+            $wallets = $wallets->where("users.id","=",Auth::user()->id);
+        }
+        $wallets = $wallets->get();
+        return $wallets;
+    }
+
+    public static function get_wallet_type(iterable $id): Collection
+    {
+        $wallet_types = DB::table('uangku.wallet_types')
+            ->whereIn("id", $id)
+            ->get();
+        return $wallet_types;
     }
 }

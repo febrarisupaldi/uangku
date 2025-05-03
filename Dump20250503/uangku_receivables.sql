@@ -16,34 +16,37 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `credit_cards`
+-- Table structure for table `receivables`
 --
 
-DROP TABLE IF EXISTS `credit_cards`;
+DROP TABLE IF EXISTS `receivables`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `credit_cards` (
+CREATE TABLE `receivables` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `wallet_id` bigint(20) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
   `name` varchar(100) NOT NULL,
-  `limit` decimal(16,2) DEFAULT NULL,
-  `billing_day` smallint(6) DEFAULT NULL,
-  `outstanding_balance` decimal(16,2) DEFAULT NULL,
+  `total_amount` decimal(18,2) NOT NULL,
+  `remaining` decimal(18,2) NOT NULL,
+  `note` text DEFAULT NULL,
+  `receivable_status_id` char(1) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`,`name`),
-  UNIQUE KEY `wallet_id` (`wallet_id`),
-  CONSTRAINT `credit_cards_ibfk_1` FOREIGN KEY (`wallet_id`) REFERENCES `wallets` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+  KEY `user_id` (`user_id`),
+  KEY `receivable_status_id` (`receivable_status_id`),
+  CONSTRAINT `receivables_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `receivables_ibfk_2` FOREIGN KEY (`receivable_status_id`) REFERENCES `receivable_statuses` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `credit_cards`
+-- Dumping data for table `receivables`
 --
 
-LOCK TABLES `credit_cards` WRITE;
-/*!40000 ALTER TABLE `credit_cards` DISABLE KEYS */;
-INSERT INTO `credit_cards` VALUES (1,4,'BCA',20000000.00,20,20000000.00);
-/*!40000 ALTER TABLE `credit_cards` ENABLE KEYS */;
+LOCK TABLES `receivables` WRITE;
+/*!40000 ALTER TABLE `receivables` DISABLE KEYS */;
+/*!40000 ALTER TABLE `receivables` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-30 15:51:36
+-- Dump completed on 2025-05-03 13:09:41
