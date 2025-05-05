@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
-class WalletsController extends Controller
+class WalletController extends Controller
 {
     public function index(): View
     {

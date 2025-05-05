@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 
-class IncomesController extends Controller
+class IncomeController extends Controller
 {
     public function index()
     {

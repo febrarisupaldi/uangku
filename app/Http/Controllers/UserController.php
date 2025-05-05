@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     public function show_login_form(): View|RedirectResponse{
         if (Auth::check()) {

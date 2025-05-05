@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\UserController;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 
-class CreditCardsController extends Controller
+class CreditCardController extends Controller
 {
     public function index(): View
     {
@@ -36,7 +36,7 @@ class CreditCardsController extends Controller
 
     public function create(): View
     {
-        $users = UsersController::get_users();
+        $users = UserController::get_users();
         // Logic to show form for creating a new credit card
         return view('creditcards.create', compact('users'));
     }

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\UsersController;
-use App\Http\Controllers\WalletsController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\WalletController;
 
-class DebtsController extends Controller
+class DebtController extends Controller
 {
     public function index()
     {
@@ -15,8 +15,8 @@ class DebtsController extends Controller
 
     public function create()
     {
-        $users = UsersController::get_users();
-        $wallet_types = WalletsController::get_wallet_type([6]);
+        $users = UserController::get_users();
+        $wallet_types = WalletController::get_wallet_type([6]);
         return view('debts.create', compact('users', 'wallet_types'));
     }
 
