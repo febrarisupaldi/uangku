@@ -16,35 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `wallets`
+-- Table structure for table `user_categories`
 --
 
-DROP TABLE IF EXISTS `wallets`;
+DROP TABLE IF EXISTS `user_categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `wallets` (
+CREATE TABLE `user_categories` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) unsigned DEFAULT NULL,
-  `wallet_type_id` smallint(6) DEFAULT NULL,
-  `is_active` tinyint(1) DEFAULT 1,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `wallet_type_id` (`wallet_type_id`),
-  CONSTRAINT `wallets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `wallets_ibfk_2` FOREIGN KEY (`wallet_type_id`) REFERENCES `wallet_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+  `name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `wallets`
+-- Dumping data for table `user_categories`
 --
 
-LOCK TABLES `wallets` WRITE;
-/*!40000 ALTER TABLE `wallets` DISABLE KEYS */;
-INSERT INTO `wallets` VALUES (1,1,1,1,'2025-04-28 08:54:52','2025-04-28 08:54:52'),(2,5,1,1,'2025-04-30 03:48:24','2025-04-30 03:48:24'),(4,5,5,1,'2025-04-30 07:46:40','2025-04-30 07:46:40');
-/*!40000 ALTER TABLE `wallets` ENABLE KEYS */;
+LOCK TABLES `user_categories` WRITE;
+/*!40000 ALTER TABLE `user_categories` DISABLE KEYS */;
+INSERT INTO `user_categories` VALUES (1,'Admin'),(2,'User');
+/*!40000 ALTER TABLE `user_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -56,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-03 13:09:41
+-- Dump completed on 2025-05-07 15:59:27

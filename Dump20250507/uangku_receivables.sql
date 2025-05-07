@@ -16,27 +16,40 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `cache`
+-- Table structure for table `receivables`
 --
 
-DROP TABLE IF EXISTS `cache`;
+DROP TABLE IF EXISTS `receivables`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cache` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `expiration` int(11) NOT NULL,
-  PRIMARY KEY (`key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `receivables` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `wallet_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `total_amount` decimal(18,2) NOT NULL,
+  `remaining_amount` decimal(18,2) NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `due_date` date DEFAULT NULL,
+  `receivable_status_id` char(1) DEFAULT 'A',
+  `description` text DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `receivable_status_id` (`receivable_status_id`),
+  KEY `wallet_id` (`wallet_id`),
+  CONSTRAINT `receivables_ibfk_2` FOREIGN KEY (`receivable_status_id`) REFERENCES `receivable_statuses` (`id`),
+  CONSTRAINT `receivables_ibfk_3` FOREIGN KEY (`wallet_id`) REFERENCES `wallets` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `cache`
+-- Dumping data for table `receivables`
 --
 
-LOCK TABLES `cache` WRITE;
-/*!40000 ALTER TABLE `cache` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cache` ENABLE KEYS */;
+LOCK TABLES `receivables` WRITE;
+/*!40000 ALTER TABLE `receivables` DISABLE KEYS */;
+INSERT INTO `receivables` VALUES (1,9,'Piutang Ditta',1000000.00,1000000.00,'2025-05-07',NULL,'A','Piutang Ditta','2025-05-07 15:27:32',NULL);
+/*!40000 ALTER TABLE `receivables` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +61,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-03 13:09:41
+-- Dump completed on 2025-05-07 15:59:27
