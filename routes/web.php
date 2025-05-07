@@ -3,8 +3,10 @@
 use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\DebtController;
 use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\ReceivableController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -78,6 +80,26 @@ Route::middleware('auth')->group(function () {
         DebtController::class,
         'store'
     ])->name('debts.store');
+
+    Route::get('/logout', function () {
+        Auth::logout();
+        return redirect()->route('users.show.login');
+    })->name('users.logout');
+
+    Route::get('/receivables', [
+        ReceivableController::class,
+        'index'
+    ])->name('receivables.index');
+
+    Route::get('/receivables/create', [
+        ReceivableController::class,
+        'create'
+    ])->name('receivables.create');
+
+    Route::post('/receivables', [
+        ReceivableController::class,
+        'store'
+    ])->name('receivables.store');
 });
 
 
