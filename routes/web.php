@@ -4,6 +4,7 @@ use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\DebtController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\ReceivableController;
+use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Auth;
@@ -100,6 +101,10 @@ Route::middleware('auth')->group(function () {
         ReceivableController::class,
         'store'
     ])->name('receivables.store');
+
+    Route::get('/transfers',[TransferController::class,'index'])->name('transfers.index');
+    Route::get('/transfers/create',[TransferController::class,'create'])->name('transfers.create');
+    Route::post('/transfers',[TransferController::class,'store'])->name('transfers.store');
 });
 
 

@@ -16,28 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `migrations`
+-- Table structure for table `credit_card_transactions`
 --
 
-DROP TABLE IF EXISTS `migrations`;
+DROP TABLE IF EXISTS `credit_card_transactions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `migrations` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `credit_card_transactions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `credit_card_id` bigint(20) unsigned DEFAULT NULL,
+  `amount` decimal(16,2) DEFAULT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `is_installment` tinyint(1) DEFAULT NULL,
+  `installment_months` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `credit_card_id` (`credit_card_id`),
+  CONSTRAINT `credit_card_transactions_ibfk_1` FOREIGN KEY (`credit_card_id`) REFERENCES `credit_cards` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `migrations`
+-- Dumping data for table `credit_card_transactions`
 --
 
-LOCK TABLES `migrations` WRITE;
-/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'0001_01_01_000000_create_users_table',1),(2,'0001_01_01_000001_create_cache_table',1),(3,'0001_01_01_000002_create_jobs_table',1);
-/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+LOCK TABLES `credit_card_transactions` WRITE;
+/*!40000 ALTER TABLE `credit_card_transactions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `credit_card_transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-07 15:59:28
+-- Dump completed on 2025-05-08 16:48:46

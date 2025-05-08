@@ -16,27 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `receivable_statuses`
+-- Table structure for table `wallets`
 --
 
-DROP TABLE IF EXISTS `receivable_statuses`;
+DROP TABLE IF EXISTS `wallets`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `receivable_statuses` (
-  `id` char(1) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `wallets` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `wallet_type_id` smallint(6) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `wallet_type_id` (`wallet_type_id`),
+  CONSTRAINT `wallets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `wallets_ibfk_2` FOREIGN KEY (`wallet_type_id`) REFERENCES `wallet_types` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `receivable_statuses`
+-- Dumping data for table `wallets`
 --
 
-LOCK TABLES `receivable_statuses` WRITE;
-/*!40000 ALTER TABLE `receivable_statuses` DISABLE KEYS */;
-INSERT INTO `receivable_statuses` VALUES ('A','Belum Dibayar'),('P','Sebagian'),('X','Lunas');
-/*!40000 ALTER TABLE `receivable_statuses` ENABLE KEYS */;
+LOCK TABLES `wallets` WRITE;
+/*!40000 ALTER TABLE `wallets` DISABLE KEYS */;
+INSERT INTO `wallets` VALUES (1,1,1,1,'2025-04-28 08:54:52','2025-04-28 08:54:52'),(2,5,1,1,'2025-04-30 03:48:24','2025-04-30 03:48:24'),(4,5,5,1,'2025-04-30 07:46:40','2025-04-30 07:46:40'),(7,5,5,1,'2025-05-07 03:33:06','2025-05-07 03:33:06'),(8,5,6,1,'2025-05-07 03:34:14','2025-05-07 03:34:14'),(9,5,7,1,'2025-05-07 08:27:32','2025-05-07 08:27:32'),(10,5,3,1,'2025-05-08 07:10:17','2025-05-08 07:10:17');
+/*!40000 ALTER TABLE `wallets` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-07 15:59:27
+-- Dump completed on 2025-05-08 16:48:45

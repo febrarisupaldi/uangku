@@ -16,27 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `debt_statuses`
+-- Table structure for table `wallet_transaction_types`
 --
 
-DROP TABLE IF EXISTS `debt_statuses`;
+DROP TABLE IF EXISTS `wallet_transaction_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `debt_statuses` (
-  `id` char(1) NOT NULL,
+CREATE TABLE `wallet_transaction_types` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `debt_statuses`
+-- Dumping data for table `wallet_transaction_types`
 --
 
-LOCK TABLES `debt_statuses` WRITE;
-/*!40000 ALTER TABLE `debt_statuses` DISABLE KEYS */;
-INSERT INTO `debt_statuses` VALUES ('A','Belum Dibayar'),('P','Sebagian'),('X','Lunas');
-/*!40000 ALTER TABLE `debt_statuses` ENABLE KEYS */;
+LOCK TABLES `wallet_transaction_types` WRITE;
+/*!40000 ALTER TABLE `wallet_transaction_types` DISABLE KEYS */;
+INSERT INTO `wallet_transaction_types` VALUES (1,'Income'),(2,'Spending'),(3,'Transfer In'),(4,'Transfer Out'),(5,'Debt'),(6,'Receivables'),(7,'Invest'),(8,'Payment Credit Card');
+/*!40000 ALTER TABLE `wallet_transaction_types` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-07 15:59:28
+-- Dump completed on 2025-05-08 16:48:45

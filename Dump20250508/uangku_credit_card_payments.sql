@@ -16,27 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `password_reset_tokens`
+-- Table structure for table `credit_card_payments`
 --
 
-DROP TABLE IF EXISTS `password_reset_tokens`;
+DROP TABLE IF EXISTS `credit_card_payments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `credit_card_payments` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `credit_card_id` bigint(20) unsigned DEFAULT NULL,
+  `from_wallet_id` bigint(20) unsigned DEFAULT NULL,
+  `amount` decimal(16,2) DEFAULT NULL,
+  `payment_date` date DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `credit_card_id` (`credit_card_id`),
+  KEY `from_wallet_id` (`from_wallet_id`),
+  CONSTRAINT `credit_card_payments_ibfk_1` FOREIGN KEY (`credit_card_id`) REFERENCES `credit_cards` (`id`),
+  CONSTRAINT `credit_card_payments_ibfk_2` FOREIGN KEY (`from_wallet_id`) REFERENCES `wallets` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `password_reset_tokens`
+-- Dumping data for table `credit_card_payments`
 --
 
-LOCK TABLES `password_reset_tokens` WRITE;
-/*!40000 ALTER TABLE `password_reset_tokens` DISABLE KEYS */;
-/*!40000 ALTER TABLE `password_reset_tokens` ENABLE KEYS */;
+LOCK TABLES `credit_card_payments` WRITE;
+/*!40000 ALTER TABLE `credit_card_payments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `credit_card_payments` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-07 15:59:28
+-- Dump completed on 2025-05-08 16:48:46

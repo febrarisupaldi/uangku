@@ -16,33 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `sessions`
+-- Table structure for table `transfers`
 --
 
-DROP TABLE IF EXISTS `sessions`;
+DROP TABLE IF EXISTS `transfers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sessions` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` bigint(20) unsigned DEFAULT NULL,
-  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_agent` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_activity` int(11) NOT NULL,
+CREATE TABLE `transfers` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `from_wallet_id` bigint(20) unsigned NOT NULL,
+  `to_wallet_id` bigint(20) unsigned NOT NULL,
+  `amount` decimal(18,2) NOT NULL,
+  `note` text DEFAULT NULL,
+  `date` date NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  KEY `sessions_user_id_index` (`user_id`),
-  KEY `sessions_last_activity_index` (`last_activity`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `from_wallet_id` (`from_wallet_id`),
+  KEY `to_wallet_id` (`to_wallet_id`),
+  CONSTRAINT `transfers_ibfk_1` FOREIGN KEY (`from_wallet_id`) REFERENCES `wallets` (`id`),
+  CONSTRAINT `transfers_ibfk_2` FOREIGN KEY (`to_wallet_id`) REFERENCES `wallets` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `sessions`
+-- Dumping data for table `transfers`
 --
 
-LOCK TABLES `sessions` WRITE;
-/*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('qM1mHnKITpUoN0E9fnCjfrvGCQBrpP6JYMg6nYGm',5,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36','YTo1OntzOjY6Il90b2tlbiI7czo0MDoiSXFlVHFxZ1dhRDN1WjNZVHZralNlSk16QWVROUF5SkJwVVhiMGt5YSI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyNjoiaHR0cDovL2xvY2FsaG9zdDo4MDg4L2hvbWUiO31zOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czozMzoiaHR0cDovL2xvY2FsaG9zdDo4MDg4L3JlY2VpdmFibGVzIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NTt9',1746606778);
-/*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
+LOCK TABLES `transfers` WRITE;
+/*!40000 ALTER TABLE `transfers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transfers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-07 15:59:27
+-- Dump completed on 2025-05-08 16:48:46

@@ -16,40 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `debts`
+-- Table structure for table `failed_jobs`
 --
 
-DROP TABLE IF EXISTS `debts`;
+DROP TABLE IF EXISTS `failed_jobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `debts` (
+CREATE TABLE `failed_jobs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `wallet_id` bigint(20) unsigned NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `total_amount` decimal(18,2) NOT NULL,
-  `remaining_amount` decimal(18,2) NOT NULL,
-  `start_date` date NOT NULL,
-  `due_date` date DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `debt_status_id` char(1) NOT NULL DEFAULT 'A',
-  `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT NULL,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  KEY `debt_status_id` (`debt_status_id`),
-  KEY `wallet_id` (`wallet_id`),
-  CONSTRAINT `debts_ibfk_1` FOREIGN KEY (`debt_status_id`) REFERENCES `debt_statuses` (`id`),
-  CONSTRAINT `debts_ibfk_2` FOREIGN KEY (`wallet_id`) REFERENCES `wallets` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `debts`
+-- Dumping data for table `failed_jobs`
 --
 
-LOCK TABLES `debts` WRITE;
-/*!40000 ALTER TABLE `debts` DISABLE KEYS */;
-INSERT INTO `debts` VALUES (2,8,'KUR',5000000.00,5000000.00,'2025-05-07',NULL,'Kredit Usaha Rakyat','A','2025-05-07 10:34:14',NULL);
-/*!40000 ALTER TABLE `debts` ENABLE KEYS */;
+LOCK TABLES `failed_jobs` WRITE;
+/*!40000 ALTER TABLE `failed_jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `failed_jobs` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -61,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-07 15:59:27
+-- Dump completed on 2025-05-08 16:48:45

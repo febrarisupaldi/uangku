@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        {{-- Tipe Dompet --}}
+        {{-- Asal Dompet --}}
         <div class="col-span-1 md:col-span-2">
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Pilih Tipe Dompet</label>
             <div class="relative">

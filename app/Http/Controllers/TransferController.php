@@ -14,8 +14,10 @@ class TransferController extends Controller
 
     public function create()
     {
+        $wallets = WalletController::get_wallets([1,2,3]);
+        $users = UserController::get_users();
         // Logic to show form for creating a new transfer
-        return view('transfers.create');
+        return view('transfers.create', compact('wallets', 'users'));
     }
     
     public function store(Request $request)

@@ -16,35 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `wallets`
+-- Table structure for table `invests`
 --
 
-DROP TABLE IF EXISTS `wallets`;
+DROP TABLE IF EXISTS `invests`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `wallets` (
+CREATE TABLE `invests` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) unsigned DEFAULT NULL,
-  `wallet_type_id` smallint(6) DEFAULT NULL,
-  `is_active` tinyint(1) DEFAULT 1,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `wallet_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `date` date NOT NULL,
+  `balance` decimal(18,2) NOT NULL,
+  `purchase_value` decimal(18,2) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `wallet_type_id` (`wallet_type_id`),
-  CONSTRAINT `wallets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `wallets_ibfk_2` FOREIGN KEY (`wallet_type_id`) REFERENCES `wallet_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+  KEY `invests_ibfk_1` (`wallet_id`),
+  CONSTRAINT `invests_ibfk_1` FOREIGN KEY (`wallet_id`) REFERENCES `wallets` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `wallets`
+-- Dumping data for table `invests`
 --
 
-LOCK TABLES `wallets` WRITE;
-/*!40000 ALTER TABLE `wallets` DISABLE KEYS */;
-INSERT INTO `wallets` VALUES (1,1,1,1,'2025-04-28 08:54:52','2025-04-28 08:54:52'),(2,5,1,1,'2025-04-30 03:48:24','2025-04-30 03:48:24'),(4,5,5,1,'2025-04-30 07:46:40','2025-04-30 07:46:40'),(7,5,5,1,'2025-05-07 03:33:06','2025-05-07 03:33:06'),(8,5,6,1,'2025-05-07 03:34:14','2025-05-07 03:34:14'),(9,5,7,1,'2025-05-07 08:27:32','2025-05-07 08:27:32');
-/*!40000 ALTER TABLE `wallets` ENABLE KEYS */;
+LOCK TABLES `invests` WRITE;
+/*!40000 ALTER TABLE `invests` DISABLE KEYS */;
+/*!40000 ALTER TABLE `invests` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -56,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-07 15:59:27
+-- Dump completed on 2025-05-08 16:48:46

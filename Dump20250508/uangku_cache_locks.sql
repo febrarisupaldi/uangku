@@ -16,34 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `credit_cards`
+-- Table structure for table `cache_locks`
 --
 
-DROP TABLE IF EXISTS `credit_cards`;
+DROP TABLE IF EXISTS `cache_locks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `credit_cards` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `wallet_id` bigint(20) unsigned NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `limit` decimal(16,2) DEFAULT NULL,
-  `billing_day` smallint(6) DEFAULT NULL,
-  `outstanding_balance` decimal(16,2) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`,`name`),
-  UNIQUE KEY `wallet_id` (`wallet_id`),
-  CONSTRAINT `credit_cards_ibfk_1` FOREIGN KEY (`wallet_id`) REFERENCES `wallets` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `cache_locks` (
+  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `owner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expiration` int(11) NOT NULL,
+  PRIMARY KEY (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `credit_cards`
+-- Dumping data for table `cache_locks`
 --
 
-LOCK TABLES `credit_cards` WRITE;
-/*!40000 ALTER TABLE `credit_cards` DISABLE KEYS */;
-INSERT INTO `credit_cards` VALUES (1,4,'BCA',20000000.00,20,20000000.00),(3,7,'BRI',20000000.00,15,20000000.00);
-/*!40000 ALTER TABLE `credit_cards` ENABLE KEYS */;
+LOCK TABLES `cache_locks` WRITE;
+/*!40000 ALTER TABLE `cache_locks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cache_locks` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-07 15:59:28
+-- Dump completed on 2025-05-08 16:48:45

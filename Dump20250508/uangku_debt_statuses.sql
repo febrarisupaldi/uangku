@@ -16,28 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `wallet_types`
+-- Table structure for table `debt_statuses`
 --
 
-DROP TABLE IF EXISTS `wallet_types`;
+DROP TABLE IF EXISTS `debt_statuses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `wallet_types` (
-  `id` smallint(6) NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `debt_statuses` (
+  `id` char(1) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `wallet_types`
+-- Dumping data for table `debt_statuses`
 --
 
-LOCK TABLES `wallet_types` WRITE;
-/*!40000 ALTER TABLE `wallet_types` DISABLE KEYS */;
-INSERT INTO `wallet_types` VALUES (3,'Bank'),(1,'Cash'),(2,'E-Wallet'),(6,'Hutang'),(8,'Investasi'),(5,'Kartu Kredit'),(7,'Piutang');
-/*!40000 ALTER TABLE `wallet_types` ENABLE KEYS */;
+LOCK TABLES `debt_statuses` WRITE;
+/*!40000 ALTER TABLE `debt_statuses` DISABLE KEYS */;
+INSERT INTO `debt_statuses` VALUES ('A','Belum Dibayar'),('P','Sebagian'),('X','Lunas');
+/*!40000 ALTER TABLE `debt_statuses` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-07 15:59:28
+-- Dump completed on 2025-05-08 16:48:46
