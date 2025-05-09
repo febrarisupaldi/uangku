@@ -26,6 +26,7 @@
                 <i data-lucide="users" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
                 <select name="user_id" required
                     class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                    <option value="">Pilih</option>
                     @foreach ($users as $user)
                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                     @endforeach
@@ -38,10 +39,11 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Asal Dompet</label>
             <div class="relative">
                 <i data-lucide="wallet-minimal" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
-                <select name="wallet_id_from" id="wallet_id_from" required
+                <select name="from_wallet_id" id="wallet_id_from" required
                     class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                    <option value="">Pilih</option>
                     @foreach ($wallets as $wallet)
-                        <option value="{{ $wallet->id }}" data-balance="{{$wallet->balance}}">{{ $wallet->name }}</option>
+                        <option value="{{ $wallet->id }}" data-balance="{{round($wallet->balance,0)}}">{{ $wallet->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -53,7 +55,7 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Jumlah Saldo</label>
             <div class="relative">
                 <i data-lucide="coins" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
-                <input type="number" name="wallet_from_balance" id="wallet_from_balance" readonly
+                <input type="text" name="wallet_from_balance" id="wallet_from_balance" readonly
                     class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     placeholder="Jumlah Saldo">
             </div>
@@ -64,7 +66,7 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Keterangan</label>
             <div class="relative">
                 <i data-lucide="save" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
-                <input type="text" name="debt_name" required
+                <input type="text" name="description" required
                     class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     placeholder="Keterangan">
             </div>
@@ -75,7 +77,7 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Jumlah</label>
             <div class="relative">
                 <i data-lucide="coins" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
-                <input type="number" name="debt_amount" required
+                <input type="number" name="transfer_amount" required
                     class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     placeholder="Jumlah">
             </div>
@@ -88,10 +90,11 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Asal Dompet</label>
             <div class="relative">
                 <i data-lucide="wallet-minimal" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
-                <select name="wallet_id_to" id="wallet_id_to" required
+                <select name="to_wallet_id" id="wallet_id_to" required
                     class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                    <option value="">Pilih</option>
                     @foreach ($wallets as $wallet)
-                        <option value="{{ $wallet->id }}" data-balance="{{ $wallet->balance }}">{{ $wallet->name }}</option>
+                        <option value="{{ $wallet->id }}" data-balance="{{ round($wallet->balance,0) }}">{{ $wallet->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -103,7 +106,7 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Jumlah</label>
             <div class="relative">
                 <i data-lucide="coins" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
-                <input type="number" name="wallet_to_balance" id="wallet_to_balance" readonly
+                <input type="text" name="wallet_to_balance" id="wallet_to_balance" readonly
                     class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     placeholder="Jumlah">
             </div>
@@ -114,7 +117,7 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tanggal Terhitung</label>
             <div class="relative">
                 <i data-lucide="calendar" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
-                <input type="date" name="start_date" required value="{{ date('Y-m-d') }}"
+                <input type="date" name="transfer_date" required value="{{ date('Y-m-d') }}"
                     class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
             </div>
         </div>
@@ -138,23 +141,29 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const walletFromSelect = document.querySelector('select[name="wallet_id_from"]');
-        const walletToSelect = document.querySelector('select[name="wallet_id_to"]');
-        const fromBalanceInput = document.querySelector('input[name="wallet_from_balance"]');
-        const toBalanceInput = document.querySelector('input[name="wallet_to_balance"]');
+        const walletFromSelect = document.getElementById('wallet_id_from');
+        const walletToSelect = document.getElementById('wallet_id_to');
+        const walletFromBalanceInput = document.getElementById('wallet_from_balance');
+        const walletToBalanceInput = document.getElementById('wallet_to_balance');
 
-        function updateBalances() {
-            const selectedFromOption = walletFromSelect.options[walletFromSelect.selectedIndex];
-            const selectedToOption = walletToSelect.options[walletToSelect.selectedIndex];
-
-            fromBalanceInput.value = selectedFromOption.getAttribute('data-balance');
-            toBalanceInput.value = selectedToOption.getAttribute('data-balance');
+        // Update the balance input when the wallet is changed
+        function updateBalanceInput(select, balanceInput) {
+            const selectedOption = select.options[select.selectedIndex];
+            const balance = selectedOption.getAttribute('data-balance');
+            balanceInput.value = balance;
         }
 
-        walletFromSelect.addEventListener('change', updateBalances);
-        walletToSelect.addEventListener('change', updateBalances);
+        // Initialize the balance inputs on page load
+        updateBalanceInput(walletFromSelect, walletFromBalanceInput);
+        updateBalanceInput(walletToSelect, walletToBalanceInput);
 
-        // Initialize balances on page load
-        updateBalances();
+        // Add event listeners to update the balance inputs when the selection changes
+        walletFromSelect.addEventListener('change', function () {
+            updateBalanceInput(walletFromSelect, walletFromBalanceInput);
+        });
+
+        walletToSelect.addEventListener('change', function () {
+            updateBalanceInput(walletToSelect, walletToBalanceInput);
+        });
     });
 </script>

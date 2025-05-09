@@ -3,7 +3,7 @@
     <button class="lg:hidden text-gray-900 dark:text-gray-300" onclick="openMobileSidebar()">
         <i data-lucide="menu" class="w-6 h-6"></i>
     </button>
-        <h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Home</h1>
+        <h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100"></h1>
     </div>
     <div class="flex items-center">
         <button onclick="toggleDarkMode()" class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white mr-4 hover:cursor-pointer">

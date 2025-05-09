@@ -105,6 +105,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/transfers',[TransferController::class,'index'])->name('transfers.index');
     Route::get('/transfers/create',[TransferController::class,'create'])->name('transfers.create');
     Route::post('/transfers',[TransferController::class,'store'])->name('transfers.store');
+
+    Route::get('/incomes/create', [
+        IncomeController::class,
+        'create'
+    ])->name('incomes.create');
+    Route::post('/incomes', [
+        IncomeController::class,
+        'store'
+    ])->name('incomes.store');
 });
 
 

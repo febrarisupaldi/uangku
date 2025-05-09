@@ -16,34 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `wallet_details`
+-- Table structure for table `income_categories`
 --
 
-DROP TABLE IF EXISTS `wallet_details`;
+DROP TABLE IF EXISTS `income_categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `wallet_details` (
+CREATE TABLE `income_categories` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `wallet_id` bigint(20) unsigned NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `balance` decimal(16,2) DEFAULT 0.00,
-  `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT NULL,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  UNIQUE KEY `wallet_id` (`wallet_id`),
-  UNIQUE KEY `name` (`name`,`wallet_id`),
-  CONSTRAINT `wallet_details_ibfk_1` FOREIGN KEY (`wallet_id`) REFERENCES `wallets` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `income_categories_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `wallet_details`
+-- Dumping data for table `income_categories`
 --
 
-LOCK TABLES `wallet_details` WRITE;
-/*!40000 ALTER TABLE `wallet_details` DISABLE KEYS */;
-INSERT INTO `wallet_details` VALUES (1,2,'Cash',0.00,'2025-04-30 10:48:24',NULL),(2,1,'Cash',0.00,'2025-04-30 11:10:00',NULL),(3,10,'BCA',0.00,'2025-05-08 14:10:17',NULL);
-/*!40000 ALTER TABLE `wallet_details` ENABLE KEYS */;
+LOCK TABLES `income_categories` WRITE;
+/*!40000 ALTER TABLE `income_categories` DISABLE KEYS */;
+INSERT INTO `income_categories` VALUES (1,5,'Gaji','2025-05-09 06:46:02');
+/*!40000 ALTER TABLE `income_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-08 16:48:46
+-- Dump completed on 2025-05-09 15:46:18

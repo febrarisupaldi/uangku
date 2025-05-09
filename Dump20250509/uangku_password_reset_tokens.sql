@@ -16,28 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `wallet_types`
+-- Table structure for table `password_reset_tokens`
 --
 
-DROP TABLE IF EXISTS `wallet_types`;
+DROP TABLE IF EXISTS `password_reset_tokens`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `wallet_types` (
-  `id` smallint(6) NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `password_reset_tokens` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `wallet_types`
+-- Dumping data for table `password_reset_tokens`
 --
 
-LOCK TABLES `wallet_types` WRITE;
-/*!40000 ALTER TABLE `wallet_types` DISABLE KEYS */;
-INSERT INTO `wallet_types` VALUES (3,'Bank'),(1,'Cash'),(2,'E-Wallet'),(6,'Hutang'),(8,'Investasi'),(5,'Kartu Kredit'),(7,'Piutang');
-/*!40000 ALTER TABLE `wallet_types` ENABLE KEYS */;
+LOCK TABLES `password_reset_tokens` WRITE;
+/*!40000 ALTER TABLE `password_reset_tokens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `password_reset_tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-08 16:48:46
+-- Dump completed on 2025-05-09 15:46:19

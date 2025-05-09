@@ -16,27 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `wallet_transaction_types`
+-- Table structure for table `wallet_details`
 --
 
-DROP TABLE IF EXISTS `wallet_transaction_types`;
+DROP TABLE IF EXISTS `wallet_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `wallet_transaction_types` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `wallet_details` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `wallet_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `balance` decimal(16,2) DEFAULT 0.00,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `wallet_id` (`wallet_id`),
+  UNIQUE KEY `name` (`name`,`wallet_id`),
+  CONSTRAINT `wallet_details_ibfk_1` FOREIGN KEY (`wallet_id`) REFERENCES `wallets` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `wallet_transaction_types`
+-- Dumping data for table `wallet_details`
 --
 
-LOCK TABLES `wallet_transaction_types` WRITE;
-/*!40000 ALTER TABLE `wallet_transaction_types` DISABLE KEYS */;
-INSERT INTO `wallet_transaction_types` VALUES (1,'Income'),(2,'Spending'),(3,'Transfer In'),(4,'Transfer Out'),(5,'Debt'),(6,'Receivables'),(7,'Invest'),(8,'Payment Credit Card');
-/*!40000 ALTER TABLE `wallet_transaction_types` ENABLE KEYS */;
+LOCK TABLES `wallet_details` WRITE;
+/*!40000 ALTER TABLE `wallet_details` DISABLE KEYS */;
+INSERT INTO `wallet_details` VALUES (1,2,'Cash',500000.00,'2025-04-30 10:48:24',NULL),(2,1,'Cash',0.00,'2025-04-30 11:10:00',NULL),(3,10,'BCA',4500000.00,'2025-05-08 14:10:17',NULL);
+/*!40000 ALTER TABLE `wallet_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-08 16:48:45
+-- Dump completed on 2025-05-09 15:46:19

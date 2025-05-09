@@ -16,27 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `cache_locks`
+-- Table structure for table `spend_categories`
 --
 
-DROP TABLE IF EXISTS `cache_locks`;
+DROP TABLE IF EXISTS `spend_categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cache_locks` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `owner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `expiration` int(11) NOT NULL,
-  PRIMARY KEY (`key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `spend_categories` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `logo` varchar(50) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `spend_categories_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `cache_locks`
+-- Dumping data for table `spend_categories`
 --
 
-LOCK TABLES `cache_locks` WRITE;
-/*!40000 ALTER TABLE `cache_locks` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cache_locks` ENABLE KEYS */;
+LOCK TABLES `spend_categories` WRITE;
+/*!40000 ALTER TABLE `spend_categories` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spend_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-08 16:48:45
+-- Dump completed on 2025-05-09 15:46:18

@@ -16,35 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `wallets`
+-- Table structure for table `wallet_transaction_types`
 --
 
-DROP TABLE IF EXISTS `wallets`;
+DROP TABLE IF EXISTS `wallet_transaction_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `wallets` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) unsigned DEFAULT NULL,
-  `wallet_type_id` smallint(6) DEFAULT NULL,
-  `is_active` tinyint(1) DEFAULT 1,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `wallet_type_id` (`wallet_type_id`),
-  CONSTRAINT `wallets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `wallets_ibfk_2` FOREIGN KEY (`wallet_type_id`) REFERENCES `wallet_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `wallet_transaction_types` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `wallets`
+-- Dumping data for table `wallet_transaction_types`
 --
 
-LOCK TABLES `wallets` WRITE;
-/*!40000 ALTER TABLE `wallets` DISABLE KEYS */;
-INSERT INTO `wallets` VALUES (1,1,1,1,'2025-04-28 08:54:52','2025-04-28 08:54:52'),(2,5,1,1,'2025-04-30 03:48:24','2025-04-30 03:48:24'),(4,5,5,1,'2025-04-30 07:46:40','2025-04-30 07:46:40'),(7,5,5,1,'2025-05-07 03:33:06','2025-05-07 03:33:06'),(8,5,6,1,'2025-05-07 03:34:14','2025-05-07 03:34:14'),(9,5,7,1,'2025-05-07 08:27:32','2025-05-07 08:27:32'),(10,5,3,1,'2025-05-08 07:10:17','2025-05-08 07:10:17');
-/*!40000 ALTER TABLE `wallets` ENABLE KEYS */;
+LOCK TABLES `wallet_transaction_types` WRITE;
+/*!40000 ALTER TABLE `wallet_transaction_types` DISABLE KEYS */;
+INSERT INTO `wallet_transaction_types` VALUES (1,'Income'),(2,'Spending'),(3,'Transfer In'),(4,'Transfer Out'),(5,'Debt'),(6,'Receivables'),(7,'Invest'),(8,'Payment Credit Card');
+/*!40000 ALTER TABLE `wallet_transaction_types` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -56,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-08 16:48:45
+-- Dump completed on 2025-05-09 15:46:18

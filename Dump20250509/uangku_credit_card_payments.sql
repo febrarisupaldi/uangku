@@ -16,40 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `debts`
+-- Table structure for table `credit_card_payments`
 --
 
-DROP TABLE IF EXISTS `debts`;
+DROP TABLE IF EXISTS `credit_card_payments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `debts` (
+CREATE TABLE `credit_card_payments` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `wallet_id` bigint(20) unsigned NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `total_amount` decimal(18,2) NOT NULL,
-  `remaining_amount` decimal(18,2) NOT NULL,
-  `start_date` date NOT NULL,
-  `due_date` date DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `debt_status_id` char(1) NOT NULL DEFAULT 'A',
-  `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT NULL,
+  `credit_card_id` bigint(20) unsigned DEFAULT NULL,
+  `from_wallet_id` bigint(20) unsigned DEFAULT NULL,
+  `amount` decimal(16,2) DEFAULT NULL,
+  `payment_date` date DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  KEY `debt_status_id` (`debt_status_id`),
-  KEY `wallet_id` (`wallet_id`),
-  CONSTRAINT `debts_ibfk_1` FOREIGN KEY (`debt_status_id`) REFERENCES `debt_statuses` (`id`),
-  CONSTRAINT `debts_ibfk_2` FOREIGN KEY (`wallet_id`) REFERENCES `wallets` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+  KEY `credit_card_id` (`credit_card_id`),
+  KEY `from_wallet_id` (`from_wallet_id`),
+  CONSTRAINT `credit_card_payments_ibfk_1` FOREIGN KEY (`credit_card_id`) REFERENCES `credit_cards` (`id`),
+  CONSTRAINT `credit_card_payments_ibfk_2` FOREIGN KEY (`from_wallet_id`) REFERENCES `wallets` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `debts`
+-- Dumping data for table `credit_card_payments`
 --
 
-LOCK TABLES `debts` WRITE;
-/*!40000 ALTER TABLE `debts` DISABLE KEYS */;
-INSERT INTO `debts` VALUES (2,8,'KUR',5000000.00,5000000.00,'2025-05-07',NULL,'Kredit Usaha Rakyat','A','2025-05-07 10:34:14',NULL);
-/*!40000 ALTER TABLE `debts` ENABLE KEYS */;
+LOCK TABLES `credit_card_payments` WRITE;
+/*!40000 ALTER TABLE `credit_card_payments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `credit_card_payments` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -61,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-08 16:48:45
+-- Dump completed on 2025-05-09 15:46:19

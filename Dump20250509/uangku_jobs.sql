@@ -16,40 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `wallet_transactions`
+-- Table structure for table `jobs`
 --
 
-DROP TABLE IF EXISTS `wallet_transactions`;
+DROP TABLE IF EXISTS `jobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `wallet_transactions` (
+CREATE TABLE `jobs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `from_wallet_id` bigint(20) unsigned NOT NULL,
-  `to_wallet_id` bigint(20) unsigned NOT NULL,
-  `wallet_transaction_type_id` smallint(5) unsigned NOT NULL,
-  `amount` decimal(18,2) NOT NULL,
-  `before_balance` decimal(18,2) NOT NULL,
-  `after_balance` decimal(18,2) NOT NULL,
-  `transaction_date` date DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT NULL,
+  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attempts` tinyint(3) unsigned NOT NULL,
+  `reserved_at` int(10) unsigned DEFAULT NULL,
+  `available_at` int(10) unsigned NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `from_wallet_id` (`from_wallet_id`),
-  KEY `to_wallet_id` (`to_wallet_id`),
-  KEY `wallet_transaction_type_id` (`wallet_transaction_type_id`),
-  CONSTRAINT `wallet_transactions_ibfk_1` FOREIGN KEY (`from_wallet_id`) REFERENCES `wallets` (`id`),
-  CONSTRAINT `wallet_transactions_ibfk_2` FOREIGN KEY (`to_wallet_id`) REFERENCES `wallets` (`id`),
-  CONSTRAINT `wallet_transactions_ibfk_3` FOREIGN KEY (`wallet_transaction_type_id`) REFERENCES `wallet_transaction_types` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  KEY `jobs_queue_index` (`queue`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `wallet_transactions`
+-- Dumping data for table `jobs`
 --
 
-LOCK TABLES `wallet_transactions` WRITE;
-/*!40000 ALTER TABLE `wallet_transactions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `wallet_transactions` ENABLE KEYS */;
+LOCK TABLES `jobs` WRITE;
+/*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -61,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-08 16:48:45
+-- Dump completed on 2025-05-09 15:46:17
