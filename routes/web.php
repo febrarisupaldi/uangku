@@ -82,7 +82,7 @@ Route::middleware('auth')->group(function () {
         'store'
     ])->name('debts.store');
 
-    Route::get('/logout', function () {
+    Route::post('/logout', function () {
         Auth::logout();
         return redirect()->route('users.show.login');
     })->name('users.logout');

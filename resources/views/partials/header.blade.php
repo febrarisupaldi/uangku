@@ -19,8 +19,17 @@
             <div id="userMenu" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border dark:border-gray-700 border rounded-lg shadow-lg py-2 hidden z-50">
                 <a href="#" class="block px-4 py-2 text-sm text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Profil</a>
                 <a href="#" class="block px-4 py-2 text-sm text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Ganti Password</a>
-            <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
-                <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900">Logout</a>
+                <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
+                <a href="#" 
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+                    class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900">
+                        Logout
+                </a>
+
+    <!-- Hidden Logout Form -->
+                <form id="logout-form" action="{{ route('users.logout') }}" method="POST" class="hidden">
+                    @csrf
+                </form>
             </div>
         </div>
     </div>

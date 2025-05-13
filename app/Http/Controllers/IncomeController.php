@@ -6,13 +6,23 @@ use Illuminate\Container\Attributes\Auth;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class IncomeController extends Controller
 {
-    public function index()
+    public function index(Request $request): View
     {
         // Logic to retrieve and display incomes        
-        return "Check incomes";
+        $from = $request->input('from', date("Y-m-01"));
+        $to = $request->input('to', date("Y-m-d"));
+
+        $incomes = DB::table('uangku.incomes')
+            ->join('uangku.wallet_details', 'incomes.wallet_id', '=', 'wallet_details.wallet_id')
+            ->join('uangku.income_categories', 'incomes.income_category_id', '=', 'income_categories.id')
+            ->whereBetween('incomes.transaction_date', [$from, $to])
+            ->select('incomes.*', 'wallet_details.name as wallet_name', 'income_categories.name as category_name')
+            ->get();
+        return view('incomes.index', compact('incomes', 'from', 'to'));
     }
 
     public function create()

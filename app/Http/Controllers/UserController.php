@@ -68,6 +68,12 @@ class UserController extends Controller
         }
     }
 
+    public function logout(): RedirectResponse
+    {
+        Auth::logout();
+        return redirect()->route('users.show.login')->with('success', 'Logout successful');
+    }
+
     public static function get_users(): Collection{
         $users = DB::table('uangku.users');
         if(Auth::user()->user_category_id == 2){
