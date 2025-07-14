@@ -23,9 +23,8 @@
             </button>
             <div id="submenu-master" class="submenu hidden ml-10 mt-1 space-y-1 overflow-hidden transition-all">
                 <a href="/wallets" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="wallet" class="w-4 h-4"></i>Dompet</a>
-                <a href="/credit-cards" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="credit-card" class="w-4 h-4"></i>Kartu Kredit</a>
                 <a href="/invests" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="hand-coins" class="w-4 h-4"></i>Investasi</a>
-                <a href="/debts" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="weight" class="w-4 h-4"></i>Hutang</a>
+                <a href="/debts" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="credit-card" class="w-4 h-4"></i>Hutang</a>
                 <a href="/receivables" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="coins" class="w-4 h-4"></i>Piutang</a>
             </div>
         </div>

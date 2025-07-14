@@ -5,8 +5,8 @@
 @section('content')
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
     <div class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow rounded-lg p-6">
-        <h2 class="text-sm text-gray-500 dark:text-gray-300">Total Anggota</h2>
-        <p class="text-2xl font-bold text-green-700 dark:text-green-400">128</p>
+        <h2 class="text-sm text-gray-500 dark:text-gray-300">Total User</h2>
+        <p class="text-2xl font-bold text-green-700 dark:text-green-400">{{ $count_users }}</p>
     </div>
     <div class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow rounded-lg p-6">
         <h2 class="text-sm text-gray-500 dark:text-gray-300">Total Simpanan</h2>

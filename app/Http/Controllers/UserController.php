@@ -82,4 +82,43 @@ class UserController extends Controller
         $users = $users->get();
         return $users;
     }
+
+    public function show_change_password_form(): View|RedirectResponse
+    {
+        if (!Auth::check()) {
+            return redirect()->route('users.show.login')->with('error', 'You must be logged in to change your password');
+        }
+        return view('change_password');
+    }
+
+    public function change_password(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+
+        if (!Auth::check()) {
+            return redirect()->route('users.show.login')->with('error', 'You must be logged in to change your password');
+        }
+
+        $user = Auth::user();
+
+        if (!Hash::check($validated['current_password'], $user->password)) {
+            return redirect()->back()->with('error', 'Current password is incorrect');
+        }
+
+        try {
+            $password = Hash::make($validated['new_password']);
+
+            return redirect()->route('home')->with('success', 'Password changed successfully');
+        } catch (QueryException $e) {
+            return redirect()->back()->with('error', 'Failed to change password: ' . $e->getMessage());
+        }
+    }
+
+    public static function get_count_all_users(): int
+    {
+        return DB::table('uangku.users')->where('user_category_id', 2)->count();
+    }
 }
