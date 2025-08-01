@@ -85,31 +85,24 @@ class UserController extends Controller
 
     public function show_change_password_form(): View|RedirectResponse
     {
-        if (!Auth::check()) {
-            return redirect()->route('users.show.login')->with('error', 'You must be logged in to change your password');
-        }
-        return view('change_password');
+        return view('change-pass');
     }
 
     public function change_password(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'current_password' => 'required',
-            'new_password' => 'required|min:8|confirmed',
+            'current_password' => 'required|current_password',
+            'password' => 'required|confirmed',
         ]);
-
-        if (!Auth::check()) {
-            return redirect()->route('users.show.login')->with('error', 'You must be logged in to change your password');
-        }
 
         $user = Auth::user();
 
-        if (!Hash::check($validated['current_password'], $user->password)) {
-            return redirect()->back()->with('error', 'Current password is incorrect');
-        }
 
         try {
-            $password = Hash::make($validated['new_password']);
+            $password = Hash::make($validated['password']);
+            DB::table('uangku.users')
+                ->where('id', $user->id)
+                ->update(['password' => $password]);
 
             return redirect()->route('home')->with('success', 'Password changed successfully');
         } catch (QueryException $e) {

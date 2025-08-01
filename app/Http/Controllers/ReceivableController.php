@@ -76,4 +76,12 @@ class ReceivableController extends Controller
             return redirect()->route('receivables.index')->with('error', 'Piutang gagal dibuat.');
         }
     }
+
+    public static function get_total_receivable_of_user(){
+        return DB::table('uangku.receivables')
+            ->where(['user_id' => Auth::user()->id, 'wallet_type_id' => 7])
+            ->whereIn('receivable_status_id', ['A','P']) // Assuming 1 is the status for active receivables
+            ->join('uangku.wallets', 'wallets.id', '=', 'receivables.wallet_id')
+            ->sum('receivables.remaining_amount');
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Brick\Math\BigInteger;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -95,5 +96,14 @@ class WalletController extends Controller
             ->whereIn("id", $id)
             ->get();
         return $wallet_types;
+    }
+
+    public static function get_total_money_of_user()
+    {
+        return DB::table('uangku.wallets')
+            ->where('user_id', Auth::user()->id)
+            ->whereIn('wallet_type_id', [1, 2, 3])
+            ->join('uangku.wallet_details', 'wallets.id', '=', 'wallet_details.wallet_id')
+            ->sum('wallet_details.balance');
     }
 }

@@ -80,4 +80,12 @@ class DebtController extends Controller
         }
     }
 
+    public static function get_total_debt_of_user(){
+        return DB::table('uangku.debts')
+            ->where(['user_id' => Auth::user()->id, 'wallet_type_id' => 6])
+            ->whereIn('debt_status_id', ['A','P']) // Assuming 1 is the status for active debts
+            ->join('uangku.wallets', 'wallets.id', '=', 'debts.wallet_id')
+            ->sum('debts.remaining_amount');
+    }
+
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -23,6 +24,25 @@ class IncomeController extends Controller
             ->select('incomes.*', 'wallet_details.name as wallet_name', 'income_categories.name as category_name')
             ->get();
         return view('incomes.index', compact('incomes', 'from', 'to'));
+    }
+
+    public static function getIncomeForSixMonths(){
+        $incomeMonths = [];
+        for ($i = 0; $i <= 5; $i++) 
+        {
+            // Generate the date string for the first day of the month $i months ago
+            $date = date('M', strtotime(date('Y-M') . " -$i months"));
+            $query = DB::table('uangku.incomes')
+                ->join('uangku.wallet_details', 'incomes.wallet_id', '=', 'wallet_details.wallet_id')
+                ->join('uangku.income_categories', 'incomes.income_category_id', '=', 'income_categories.id')
+                ->where(DB::raw("DATE_FORMAT(incomes.transaction_date,'%b')"), $date)
+                ->select(DB::raw('SUM(incomes.income_amount) as total_income'))
+                ->first();
+            
+            // Append the date string to the $months array
+            $incomeMonths[] = $query->total_income ?? 0; // Use null coalescing operator to handle null values
+        }
+        return $incomeMonths;
     }
 
     public function create()

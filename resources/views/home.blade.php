@@ -5,19 +5,19 @@
 @section('content')
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
     <div class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow rounded-lg p-6">
-        <h2 class="text-sm text-gray-500 dark:text-gray-300">Total User</h2>
-        <p class="text-2xl font-bold text-green-700 dark:text-green-400">{{ $count_users }}</p>
+        <h2 class="text-sm text-gray-500 dark:text-gray-300">Total Uang</h2>
+        <p class="text-2xl font-bold text-green-700 dark:text-green-400">Rp.{{ number_format($total_moneys,0,',','.') }}</p>
     </div>
     <div class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow rounded-lg p-6">
-        <h2 class="text-sm text-gray-500 dark:text-gray-300">Total Simpanan</h2>
-        <p class="text-2xl font-bold text-green-700 dark:text-green-400">Rp120.000.000</p>
+        <h2 class="text-sm text-gray-500 dark:text-gray-300">Total Hutang</h2>
+        <p class="text-2xl font-bold text-green-700 dark:text-green-400">Rp.{{ number_format($total_debts,0,',','.') }}</p>
     </div>
     <div class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow rounded-lg p-6">
-        <h2 class="text-sm text-gray-500 dark:text-gray-300">Total Pinjaman</h2>
-        <p class="text-2xl font-bold text-green-700 dark:text-green-400">Rp80.000.000</p>
+        <h2 class="text-sm text-gray-500 dark:text-gray-300">Total Piutang</h2>
+        <p class="text-2xl font-bold text-green-700 dark:text-green-400">Rp.{{ number_format($total_receivables,0,',','.') }}</p>
     </div>
     <div class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow rounded-lg p-6">
-        <h2 class="text-sm text-gray-500 dark:text-gray-300">Sisa Kas</h2>
+        <h2 class="text-sm text-gray-500 dark:text-gray-300">Total Investasi</h2>
         <p class="text-2xl font-bold text-green-700 dark:text-green-400">Rp40.000.000</p>
     </div>
 </div>
@@ -32,22 +32,24 @@
 
 @push('head')
 <script>
+  var months =  "{{ implode(',', $months) }}";
+  var incomeData = "{{ implode(',', $total_income_six_months) }}";
   document.addEventListener("DOMContentLoaded", () => {
     const ctx = document.getElementById('grafikKeuangan').getContext('2d');
     new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'],
+        labels: months.split(','),
         datasets: [
           {
-            label: 'Simpanan',
-            data: [50000000, 60000000, 65000000, 70000000, 72000000, 75000000],
+            label: 'Pendapatan',
+            data: incomeData.split(','),
             backgroundColor: 'rgba(34,197,94,0.7)',
             borderColor: 'rgba(34,197,94,1)',
             borderWidth: 1
           },
           {
-            label: 'Pinjaman',
+            label: 'Pengeluaran',
             data: [20000000, 25000000, 28000000, 30000000, 31000000, 32000000],
             backgroundColor: 'rgba(239,68,68,0.7)',
             borderColor: 'rgba(239,68,68,1)',

@@ -13,12 +13,19 @@
         <div class="relative ml-4">
             <button id="userMenuButton" class="flex items-center gap-2 text-sm text-gray-900 hover:text-green-700 dark:text-gray-200 dark:hover:text-green-400 focus:outline-none hover:cursor-pointer">
                 <i data-lucide="user" class="w-5 h-5"></i>
-                <span>Admin</span>
+                <span>
+                    @if(str_word_count(Auth::user()->name) > 1)
+                        {{ preg_replace('/(?<=\w)./', '', Auth::user()->name) }}
+                    @else
+                        {{ Auth::user()->name }}
+                    @endif
+                </span>
+
                 <i data-lucide="chevron-down" class="w-4 h-4"></i>
             </button>
             <div id="userMenu" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border dark:border-gray-700 border rounded-lg shadow-lg py-2 hidden z-50">
                 <a href="#" class="block px-4 py-2 text-sm text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Profil</a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Ganti Password</a>
+                <a href="/users/change-password" class="block px-4 py-2 text-sm text-gray-900 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Ganti Password</a>
                 <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
                 <a href="#" 
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 

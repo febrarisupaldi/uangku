@@ -29,9 +29,19 @@ Route::post('/login', [
     UserController::class,
     'login'
 ])->name('users.login');
+Route::get('/check', [HomeController::class, 'check']);
+Route::get('/income', [IncomeController::class, 'getIncomeForSixMonths']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/users/change-password', [
+        UserController::class,
+        'show_change_password_form'
+    ])->name('users.show.change.password');
+    Route::post('/users/change-password', [
+        UserController::class,
+        'change_password'
+    ])->name('users.change.password');
 
     Route::get('/wallets', [
         WalletController::class,
