@@ -48,9 +48,10 @@ class WalletController extends Controller
     {
         try {
             $validated = $request->validate([
-                'wallet_name' => 'required|string|max:255',
-                'wallet_type_id' => 'required|exists:wallet_types,id',
-                'user_id' => 'required|exists:users,id',
+                'wallet_name'       => 'required|string|max:255',
+                'wallet_type_id'    => 'required|exists:wallet_types,id',
+                'wallet_balance'    => 'required|numeric|min:0',
+                'user_id'           => 'required|exists:users,id',
             ]);
 
             DB::transaction(function() use ($validated) {
@@ -61,6 +62,7 @@ class WalletController extends Controller
 
                 DB::table('uangku.wallet_details')->insert([
                     'name' => $validated['wallet_name'],
+                    'balance' => $validated['wallet_balance'] ?? 0,
                     'wallet_id' => $id,
                 ]);
             });

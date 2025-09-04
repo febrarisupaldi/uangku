@@ -30,7 +30,7 @@
   @stack('head')
 </head>
 <body class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 font-sans">
-@if(session('success'))
+    @if(session('success'))
         <x-alert type="success">{{ session('success') }}</x-alert>
     @endif
 
@@ -52,4 +52,4 @@
       </div>
     </div>
 </body>
-</html
+</html>

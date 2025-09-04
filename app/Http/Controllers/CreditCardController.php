@@ -24,6 +24,7 @@ class CreditCardController extends Controller
                 "credit_cards.limit",
                 "credit_cards.billing_day",
                 "credit_cards.outstanding_balance",
+                "credit_cards.is_credit_card",
                 DB::raw("if(wallets.is_active = 1, 'Aktif', 'Tidak Aktif') as status"),
             );
             if(Auth::user()->user_category_id == 2){

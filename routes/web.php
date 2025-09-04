@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\DebtController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\ReceivableController;
@@ -114,7 +115,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/transfers',[TransferController::class,'index'])->name('transfers.index');
     Route::get('/transfers/create',[TransferController::class,'create'])->name('transfers.create');
     Route::post('/transfers',[TransferController::class,'store'])->name('transfers.store');
-
+    Route::get('/incomes', [
+        IncomeController::class,
+        'index'
+    ])->name('incomes.index');
     Route::get('/incomes/create', [
         IncomeController::class,
         'create'
@@ -123,6 +127,9 @@ Route::middleware('auth')->group(function () {
         IncomeController::class,
         'store'
     ])->name('incomes.store');
+
+    Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
+    Route::get('/expenses/create', [ExpenseController::class, 'create'])->name('expenses.create');
 });
 
 

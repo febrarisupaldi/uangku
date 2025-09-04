@@ -49,6 +49,17 @@
             </div>
         </div>
 
+        {{-- Saldo --}}
+        <div class="col-span-1 md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Saldo</label>
+            <div class="relative">
+                <i data-lucide="coins" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
+                <input type="number" name="wallet_balance" id="wallet_balance" required
+                    class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    placeholder="Saldo" value="0">
+            </div>
+        </div>
+
         {{-- Nama --}}
         <div class="col-span-1 md:col-span-2">
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nama Dompet</label>
@@ -73,4 +84,5 @@
         </div>
     </form>
 </div>
+
 @endsection

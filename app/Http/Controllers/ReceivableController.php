@@ -51,6 +51,7 @@ class ReceivableController extends Controller
             'receivable_name'   => 'required|string|max:255',
             'receivable_amount' => 'required|numeric|min:0',
             'start_date'        => 'required|date|date_format:Y-m-d',
+            'is_credit_card'    => 'boolean',
             'description'       => 'nullable|string',
         ]);
 

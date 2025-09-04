@@ -14,8 +14,8 @@ class IncomeController extends Controller
     public function index(Request $request): View
     {
         // Logic to retrieve and display incomes        
-        $from = $request->input('from', date("Y-m-01"));
-        $to = $request->input('to', date("Y-m-d"));
+        $from = $request->input('from_date', date("Y-m-01"));
+        $to = $request->input('to_date', date("Y-m-d"));
 
         $incomes = DB::table('uangku.incomes')
             ->join('uangku.wallet_details', 'incomes.wallet_id', '=', 'wallet_details.wallet_id')
