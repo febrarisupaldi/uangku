@@ -19,34 +19,6 @@
     <form action="{{ route('debts.store')}}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
         @csrf
 
-        {{-- Nama User --}}
-        <div class="col-span-1 md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Pilih User</label>
-            <div class="relative">
-                <i data-lucide="users" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
-                <select name="user_id" required
-                    class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                    @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-
-        {{-- Tipe Dompet --}}
-        <div class="col-span-1 md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Pilih Tipe Dompet</label>
-            <div class="relative">
-                <i data-lucide="wallet-minimal" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
-                <select name="wallet_type_id" required
-                    class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
-                    @foreach ($wallet_types as $wallet_type)
-                        <option value="{{ $wallet_type->id }}">{{ $wallet_type->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-
         {{-- Nama Hutang --}}
         <div class="col-span-1 md:col-span-2">
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nama Hutang</label>

@@ -17,8 +17,8 @@ class TransferController extends Controller
 
         // Logic to retrieve and display transfers
         $transfers = DB::table('uangku.transfers')
-            ->join('uangku.wallet_details as from_wallet', 'transfers.from_wallet_id', '=', 'from_wallet.wallet_id')
-            ->join('uangku.wallet_details as to_wallet', 'transfers.to_wallet_id', '=', 'to_wallet.wallet_id')
+            ->join('uangku.wallets as from_wallet', 'transfers.from_wallet_id', '=', 'from_wallet.wallet_id')
+            ->join('uangku.wallets as to_wallet', 'transfers.to_wallet_id', '=', 'to_wallet.wallet_id')
             ->whereBetween('transfers.transfer_date', [$from, $to])
             ->select('transfers.*', 'from_wallet.name as from_wallet_name', 'to_wallet.name as to_wallet_name')
             ->get();
@@ -36,20 +36,20 @@ class TransferController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'from_wallet_id' => 'required|exists:wallets,id',
-            'to_wallet_id' => 'required|exists:wallets,id',
-            'transfer_amount' => 'required|numeric|min:0',
-            'transfer_date' => 'required|date|date_format:Y-m-d',
-            'description' => 'nullable|string',
+            'from_wallet_id'    => 'required|exists:wallets,id',
+            'to_wallet_id'      => 'required|exists:wallets,id',
+            'transfer_amount'   => 'required|numeric|min:0',
+            'transfer_date'     => 'required|date|date_format:Y-m-d',
+            'description'       => 'nullable|string',
         ]);
 
         try {
             DB::transaction(function() use ($validated) {
                 // Logic to handle the transfer transaction
-                DB::table('uangku.wallet_details')
+                DB::table('uangku.wallets')
                     ->where('wallet_id', $validated['from_wallet_id'])
                     ->decrement('balance', $validated['transfer_amount']);
-                DB::table('uangku.wallet_details')
+                DB::table('uangku.wallets')
                     ->where('wallet_id', $validated['to_wallet_id'])
                     ->increment('balance', $validated['transfer_amount']);
                 DB::table('uangku.transfers')->insert([

@@ -15,9 +15,9 @@ class CreditCardController extends Controller
     public function index(): View
     {
         $credit_cards = DB::table('uangku.credit_cards')
-            ->join("uangku.wallets", "credit_cards.wallet_id", "=", "wallets.id")
-            ->join("uangku.users", "wallets.user_id", "=", "users.id")
-            ->join("uangku.wallet_types", "wallets.wallet_type_id", "=", "wallet_types.id")
+            ->join("uangku.wallets", "credit_cards.wallet_id", "=", "payments.id")
+            ->join("uangku.users", "payments.user_id", "=", "users.id")
+            ->join("uangku.wallet_types", "payments.wallet_type_id", "=", "wallet_types.id")
             ->select(
                 "credit_cards.name",
                 "wallet_types.name as wallet_type_name",
@@ -25,7 +25,7 @@ class CreditCardController extends Controller
                 "credit_cards.billing_day",
                 "credit_cards.outstanding_balance",
                 "credit_cards.is_credit_card",
-                DB::raw("if(wallets.is_active = 1, 'Aktif', 'Tidak Aktif') as status"),
+                DB::raw("if(payments.is_active = 1, 'Aktif', 'Tidak Aktif') as status"),
             );
             if(Auth::user()->user_category_id == 2){
                 $credit_cards = $credit_cards->where("users.id","=",Auth::user()->id);

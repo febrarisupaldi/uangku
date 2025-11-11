@@ -2,47 +2,26 @@
 
 @section('content')
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-6">
-    <form method="GET" action="{{ route('incomes.index') }}" class="grid grid-cols-5 gap-4 items-end">
-        {{-- Dari Tanggal (2/5) --}}
-        <div class="col-span-2">
-            <label for="from_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Dari Tanggal
-            </label>
-            <input type="date" id="from_date" name="from_date"
-                value="{{ date('Y-m-01') ?? request('from_date') }}"
-                class="w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2">
-        </div>
-
-        {{-- Sampai Tanggal (2/5) --}}
-        <div class="col-span-2">
-            <label for="to_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Sampai Tanggal
-            </label>
-            <input type="date" id="to_date" name="to_date"
-                value="{{ date('Y-m-d') ?? request('to_date') }}"
-                class="w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2">
-        </div>
-
-        {{-- Tombol Submit (1/5) --}}
-        <div class="col-span-1">
-            <button type="submit"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow">
-                Filter
-            </button>
-        </div>
-    </form>
-</div>
-
-
-<div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Daftar Pemasukan</h2>
-        
         <a href="{{ route('incomes.create') }}" class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800">
             <i data-lucide="plus" class="inline w-4 h-4 mr-1"></i> Tambah Pemasukan
         </a>
-        
     </div>
+
+    <form method="GET" action="{{ route('incomes.index') }}" class="flex flex-col md:flex-row md:items-end gap-4 mb-6">
+        <div class="flex flex-col">
+            <label for="start_date" class="text-sm text-gray-700 dark:text-gray-200 mb-1">Tanggal Mulai</label>
+            <input type="date" name="from" value="{{ old('from') ?? $from }}" class="rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-4 py-2">
+        </div>
+        <div class="flex flex-col">
+            <label for="end_date" class="text-sm text-gray-700 dark:text-gray-200 mb-1">Tanggal Akhir</label>
+            <input type="date" name="to" value="{{ old('to') ?? $to }}" class="rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-4 py-2">
+        </div>
+        <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded mt-2 md:mt-0">
+            <i data-lucide="filter" class="w-4 h-4 inline-block mr-1"></i> Filter
+        </button>
+    </form>
 
     <div class="overflow-x-auto">
         <table class="min-w-full text-sm text-left text-gray-700 dark:text-gray-200">

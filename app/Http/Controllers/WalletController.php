@@ -10,22 +10,23 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class WalletController extends Controller
 {
     public function index(): View
     {
-        $wallets = DB::table('uangku.wallets')
-            ->join("uangku.users","wallets.user_id","=","users.id")
-            ->join("uangku.wallet_types","wallets.wallet_type_id","=","wallet_types.id")
-            ->join("uangku.wallet_details","wallets.id","=","wallet_details.wallet_id")
+        $wallets = DB::table('uangku.payments')
+            ->join("uangku.users","payments.user_id","=","users.id")
+            ->join("uangku.payment_types","payments.payment_type_id","=","payment_types.id")
+            ->join("uangku.wallets","payments.id","=","wallets.payment_id")
             ->select(
-                "wallets.id",
-                "wallet_details.name",
-                "wallet_details.balance",
-                "wallet_types.name as wallet_type_name",
+                "payments.id",
+                "wallets.name",
+                "wallets.balance",
+                "payment_types.name as wallet_type_name",
                 "users.name as user_name")
-            ->whereIn("wallet_types.id",[1,2,3]);
+            ->whereIn("payment_types.id",[1,2,3]);
             if(Auth::user()->user_category_id == 2){
                 $wallets = $wallets->where("users.id","=",Auth::user()->id);
             }
@@ -35,7 +36,9 @@ class WalletController extends Controller
 
     public function create(): View
     {
-        $wallet_types = DB::table('uangku.wallet_types')->whereIn("id",[1,2,3])->get();
+        $wallet_types = DB::table('uangku.payment_types')
+            ->whereIn("id",[1,2,3])
+            ->get();
         $users = DB::table('uangku.users');
         if(Auth::user()->user_category_id == 2){
             $users = $users->where("users.id","=",Auth::user()->id);
@@ -49,21 +52,20 @@ class WalletController extends Controller
         try {
             $validated = $request->validate([
                 'wallet_name'       => 'required|string|max:255',
-                'wallet_type_id'    => 'required|exists:wallet_types,id',
-                'wallet_balance'    => 'required|numeric|min:0',
-                'user_id'           => 'required|exists:users,id',
+                'wallet_type_id'    => 'required|exists:payment_types,id',
+                'wallet_balance'    => 'required|numeric|min:0'
             ]);
 
             DB::transaction(function() use ($validated) {
-                $id = DB::table('uangku.wallets')->insertGetId([
-                    'wallet_type_id' => $validated['wallet_type_id'],
-                    'user_id' => $validated['user_id'],
+                $id = DB::table('uangku.payments')->insertGetId([
+                    'payment_type_id' => $validated['wallet_type_id'],
+                    'user_id' => Auth::user()->id,
                 ]);
 
-                DB::table('uangku.wallet_details')->insert([
+                DB::table('uangku.wallets')->insert([
+                    'payment_id' => $id,
                     'name' => $validated['wallet_name'],
-                    'balance' => $validated['wallet_balance'] ?? 0,
-                    'wallet_id' => $id,
+                    'balance' => $validated['wallet_balance'],
                 ]);
             });
 
@@ -73,18 +75,31 @@ class WalletController extends Controller
         }
     }
 
+    public function delete($id): RedirectResponse
+    {
+        try {
+           DB::table('uangku.payments')
+           ->where('id', $id)
+           ->update(['is_active' => 0]);
+
+            return redirect()->route('wallets.index')->with('success', 'Dompet berhasil dihapus');
+        } catch (QueryException $e) {
+            return redirect()->route('wallets.index')->with('error', 'Gagal menghapus dompet: ' . $e->getMessage());
+        }
+    }
+
     public static function get_wallets(iterable $id): Collection
     {
-        $wallets = DB::table('uangku.wallets')
-            ->join("uangku.wallet_types","wallets.wallet_type_id","=","wallet_types.id")
-            ->join("uangku.wallet_details","wallets.id","=","wallet_details.wallet_id")
-            ->join("uangku.users","wallets.user_id","=","users.id")
+        $wallets = DB::table('uangku.payments')
+            ->join("uangku.payment_types","payments.payment_type_id","=","payment_types.id")
+            ->join("uangku.wallets","payments.id","=","wallets.payment_id")
+            ->join("uangku.users","payments.user_id","=","users.id")
             ->select(
-                "wallets.id",
-                "wallet_details.name",
-                "wallet_types.name as wallet_type_name",
-                "wallet_details.balance")
-            ->whereIn("wallet_types.id",$id);
+                "payments.id",
+                "wallets.name",
+                "payment_types.name as wallet_type_name",
+                "wallets.balance")
+            ->whereIn("payment_types.id",$id);
         if(Auth::user()->user_category_id == 2){
             $wallets = $wallets->where("users.id","=",Auth::user()->id);
         }
@@ -94,7 +109,7 @@ class WalletController extends Controller
 
     public static function get_wallet_type(iterable $id): Collection
     {
-        $wallet_types = DB::table('uangku.wallet_types')
+        $wallet_types = DB::table('uangku.payment_types')
             ->whereIn("id", $id)
             ->get();
         return $wallet_types;
@@ -102,10 +117,80 @@ class WalletController extends Controller
 
     public static function get_total_money_of_user()
     {
-        return DB::table('uangku.wallets')
+        return DB::table('uangku.payments')
             ->where('user_id', Auth::user()->id)
-            ->whereIn('wallet_type_id', [1, 2, 3])
-            ->join('uangku.wallet_details', 'wallets.id', '=', 'wallet_details.wallet_id')
-            ->sum('wallet_details.balance');
+            ->whereIn('payment_type_id', [1, 2, 3])
+            ->join('uangku.wallets', 'payments.id', '=', 'wallets.payment_id')
+            ->sum('wallets.balance');
+    }
+
+    public function admin_fee_index(): View
+    {
+        $wallets = DB::table('uangku.payments')
+            ->join("uangku.users","payments.user_id","=","users.id")
+            ->join("uangku.payment_types","payments.payment_type_id","=","payment_types.id")
+            ->join("uangku.wallets","payments.id","=","wallets.payment_id")
+            ->select(
+                "payments.id",
+                "wallets.name",
+                "wallets.balance",
+                "wallets.admin_fee",
+                "wallets.nominal_admin_fee",
+                "wallets.date_admin_fee",
+                "payment_types.name as wallet_type_name",
+                "users.name as user_name")
+            ->whereIn("payment_types.id",[3]);
+            if(Auth::user()->user_category_id == 2){
+                $wallets = $wallets->where("users.id","=",Auth::user()->id);
+            }
+            $wallets = $wallets->get();
+        return view('wallets.admin-fee.index', compact('wallets'));
+    }
+
+    public function admin_fee_create($id): View
+    {
+        $wallet = DB::table('uangku.payments')
+            ->join("uangku.users","payments.user_id","=","users.id")
+            ->join("uangku.payment_types","payments.payment_type_id","=","payment_types.id")
+            ->join("uangku.wallets","payments.id","=","wallets.payment_id")
+            ->select(
+                "payments.id",
+                "wallets.name",
+                "wallets.balance",
+                "payment_types.name as wallet_type_name",
+                "users.name as user_name")
+            ->whereIn("payment_types.id",[3])
+            ->where("payments.id", $id)
+            ->whereNull("wallets.admin_fee")
+            ->first();
+        return view('wallets.admin-fee.create', compact('wallet'));
+    }
+
+    public function admin_fee_store(Request $request, $id): RedirectResponse
+    {
+        try {
+            $validated = $request->validate([
+                'nominal_admin_fee' => 'required|numeric|min:0',
+                'date_admin_fee'    => 'required|date_format:d'
+            ]);
+
+            $admin_fee = 0;
+
+            if($validated['nominal_admin_fee'] != 0){
+                $admin_fee = 1;
+            }
+
+            DB::table('uangku.wallets')
+                ->where('payment_id', $id)
+                ->update([
+                    'admin_fee' => $admin_fee,
+                    'nominal_admin_fee' => $validated['nominal_admin_fee'],
+                    'date_admin_fee' => $validated['date_admin_fee'],
+                ]);
+
+            return redirect()->route('wallets.admin_fee.index')->with('success', 'Biaya Admin berhasil ditambahkan');
+        } catch (QueryException $e) {
+            return redirect()->route('wallets.admin_fee.index')->with('error', 'Gagal Menambahkan Biaya Admin: ' . $e->getMessage());
+        }
     }
 }

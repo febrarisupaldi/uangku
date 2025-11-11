@@ -44,7 +44,9 @@
             <div id="submenu-transaction" class="submenu hidden ml-10 mt-1 space-y-1 overflow-hidden transition-all">
                 <a href="/incomes" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="banknote-arrow-down" class="w-4 h-4"></i> Pemasukan</a>
                 <a href="/expenses" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="banknote-arrow-up" class="w-4 h-4"></i>Pengeluaran</a>
+                <a href="/subscriptions" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="repeat-2" class="w-4 h-4"></i>Berlangganan</a>
                 <a href="/transfers" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="refresh-ccw" class="w-4 h-4"></i>Mutasi Kas</a>
+                <a href="/wallets/admin-fee" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="dollar-sign" class="w-4 h-4"></i>Biaya Admin</a>
                 <a href="/debt-payments" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="circle-dollar-sign" class="w-4 h-4"></i>Bayar Hutang</a>
                 <a href="/debt-payments" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="coins" class="w-4 h-4"></i>Terima Piutang</a>
                 <a href="/debt-payments" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="badge-plus" class="w-4 h-4"></i>Tambah Investasi</a>
@@ -85,7 +87,7 @@
             </div>
         </div>
     </nav>
-    <div class="p-4 border-t border-green-600 text-sm sidebar-label">
+    <nav class="p-4 border-t border-green-600 text-sm sidebar-label">
     © 2025 Uangku
-    </div>
+    </nav>
 </aside>

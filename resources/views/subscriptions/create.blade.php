@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Input Data Pengeluaran')
+@section('title', 'Input Pengeluaran Langganan')
 
 @section('content')
 <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Tambah Pengeluaran</h2>
+    <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Tambah Pengeluaran Langganan</h2>
 
     @if ($errors->any())
         <div class="mb-4 bg-red-100 dark:bg-red-500/10 border border-red-400 dark:border-red-500 text-red-700 dark:text-red-300 px-4 py-3 rounded">
@@ -16,49 +16,35 @@
         </div>
     @endif
 
-    <form action="{{ route('expenses.store') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <form action="{{ route('subscriptions.store') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
         @csrf
 
-        {{-- Wallet or Credit Card --}}
+        {{-- Credit Card --}}
         <div class="col-span-1 md:col-span-2 grid grid-cols-12 gap-4">
-            <div class="col-span-8">
+            <div class="col-span-12">
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Pilih Pembayaran</label>
                 <div class="relative">
                     <i data-lucide="wallet-minimal" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
-                    <select id="paymentSelect" name="payment_source" required
+                    <select id="paymentSelect" name="credit_card" required
                         class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
                         <option value="" disabled selected>Pilih Pembayaran</option>
-                        <optgroup label="Dompet">
-                            @foreach ($wallets as $wallet)
-                                <option value="wallet:{{ $wallet->id }}" data-balance="{{ $wallet->balance }}">
-                                    {{ $wallet->name }}
-                                </option>
-                            @endforeach
-                        </optgroup>
-                        <optgroup label="Kartu Kredit">
+                        
                             @foreach ($credit_cards as $credit_card)
-                                <option value="credit_card:{{ $credit_card->id }}" data-balance="{{ $credit_card->remaining_amount }}">
+                                <option value="{{ $credit_card->id }}" data-balance="{{ $credit_card->remaining_amount }}">
                                     {{ $credit_card->name }}
                                 </option>
                             @endforeach
-                        </optgroup>
+                        
                     </select>
-                </div>
-            </div>
-            <div class="col-span-4">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Saldo / Limit</label>
-                <div class="relative">
-                    <i data-lucide="coins" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
-                    <input type="text" id="paymentBalance" readonly
-                        class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 
-                               bg-gray-100 dark:bg-gray-600 text-gray-900 dark:text-white" />
                 </div>
             </div>
         </div>
 
+        
+
         {{-- Categories --}}
         <div class="col-span-1 md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Pilih Pembayaran</label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Kategori</label>
             <div class="relative">
                 <i data-lucide="briefcase-business" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
                 <select name="expense_category" required
@@ -71,12 +57,27 @@
             </div>
         </div>
 
+        {{-- Jenis Langganan --}}
+        <div class="col-span-1 md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Jenis Langganan</label>
+            <div class="relative">
+                <i data-lucide="briefcase-business" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
+                <select name="subscription_type" required
+                    class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                    <option value="" disabled selected>Pilih Periode Langganan</option>
+                    @foreach ($subs_types as $subs_type)
+                        <option value="{{ $subs_type->id }}">{{ $subs_type->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
         {{-- Deskripsi --}}
         <div class="col-span-1 md:col-span-2">
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Deskripsi</label>
             <div class="relative">
                 <i data-lucide="notebook-pen" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
-                <input type="text" name="expense_title" required
+                <input type="text" name="subscriptions_description" required
                     class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     placeholder="Deskripsi">
             </div>
@@ -87,7 +88,7 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Jumlah</label>
             <div class="relative">
                 <i data-lucide="coins" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
-                <input type="number" name="expense_amount" required
+                <input type="number" name="subscription_amount" required
                     class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     placeholder="Jumlah">
             </div>
@@ -98,18 +99,11 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tanggal Transaksi</label>
             <div class="relative">
                 <i data-lucide="calendar" class="absolute left-3 top-3.5 w-5 h-5 text-gray-500"></i>
-                <input type="date" name="expense_date" required value="{{ date('Y-m-d') }}"
+                <input type="date" min="{{ date('Y-01-01') }}" name="subscription_date" required
                     class="pl-10 pr-4 py-3 w-full rounded-lg border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
             </div>
         </div>
 
-        {{-- Keterangan --}}
-        <div class="col-span-1 md:col-span-2">
-            <label for="description" class="block text-sm font-medium">Keterangan</label>
-            <textarea name="expense_description" id="description" rows="3"
-                class="w-full border-gray-300 rounded-lg px-4 py-3 dark:bg-gray-700 dark:text-white"
-                placeholder="Keterangan tambahan..."></textarea>
-        </div>
 
         {{-- Tombol --}}
         <div class="col-span-1 md:col-span-2 text-right pt-4">

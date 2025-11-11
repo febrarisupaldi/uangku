@@ -23,7 +23,7 @@
 </div>
 
 <div class="mt-8 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow rounded-lg p-6">
-    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Grafik Simpanan vs Pinjaman</h3>
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Grafik Pemasukan vs Pengeluaran</h3>
     <div class="aspect-[6/2]">
         <canvas id="grafikKeuangan"></canvas>
     </div>

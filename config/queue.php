@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('QUEUE_CONNECTION', 'database'),
+    'default' => env('QUEUE_CONNECTION', 'rabbitmq'),
 
     /*
     |--------------------------------------------------------------------------
@@ -70,6 +70,23 @@ return [
             'retry_after' => (int) env('REDIS_QUEUE_RETRY_AFTER', 90),
             'block_for' => null,
             'after_commit' => false,
+        ],
+
+        'rabbitmq' => [
+            'driver' => 'enqueue',
+            'connection' => 'amqp',
+            'dsn' => env('RABBITMQ_DSN', 'amqp://paldi:paldi@127.0.0.1:5672/'),
+            'queue' => env('RABBITMQ_QUEUE', 'emails_queue'),
+            'options' => [
+                'exchange' => [
+                    'name' => env('RABBITMQ_EXCHANGE', 'laravel_exchange'),
+                    'declare' => true,
+                ],
+                'queue' => [
+                    'declare' => true,
+                    'bind' => true,
+                ],
+            ],
         ],
 
     ],

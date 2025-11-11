@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
+use App\Support\RabbitMQPublisher;
 
 class UserController extends Controller
 {
@@ -27,12 +28,12 @@ class UserController extends Controller
         return view('register');
     }
 
-    public function register(Request $request): RedirectResponse{
+    public function register(Request $request, RabbitMQPublisher $rabbit): RedirectResponse{
         $validated = $request->validate([
             'username' => 'required|unique:users,email',
             'fullname' => 'required|string|max:255',
             'password' => 'required',
-            'password_confirmation' => 'required|same:password'
+            'password_confirmation' => 'required|same:password',
         ]);
 
         try {
@@ -41,7 +42,16 @@ class UserController extends Controller
                 'email' => $validated['username'],
                 'name' => $validated['fullname'],
                 'email_verified_at' => now(),
-                'password' => Hash::driver('argon')->make($validated['password'])
+                'password' => Hash::driver('argon')->make($validated['password']),
+                'user_category_id' => 2,
+                'activation_link' => substr(bin2hex(random_bytes(ceil(32 / 2))),0,32)
+            ]);
+
+            $rabbit->send('emails_queue',[
+                'type' => 'activation',
+                'to' => $validated['username'],
+                'fullname' => $validated['fullname'],
+                'activation_link' => url('/activation/'.$validated['activation_link'])
             ]);
 
             return redirect()->route('users.show.login')->with('success', 'Berhasil daftar, Silahkan login untuk melanjutkan');
@@ -55,6 +65,16 @@ class UserController extends Controller
         return redirect()->route('users.show.login');
     }
 
+    public function activation_user(Request $request, $activation_link): RedirectResponse{
+        $user = DB::table('uangku.users')->where('activation_link', $activation_link)->first();
+        if($user){
+            DB::table('uangku.users')->where('id', $user->id)->update(['activation_link' => null]);
+            return redirect()->route('users.show.login')->with('success', 'Account activated, please login to continue');
+        } else {
+            return redirect()->route('users.show.login')->with('error', 'Invalid activation link');
+        }
+    }
+
     public function login(Request $request): RedirectResponse{
         $validated = $request->validate([
             'username' => 'required',
@@ -62,6 +82,10 @@ class UserController extends Controller
         ]);
 
         if(Auth::attempt(['email' => $validated['username'], 'password' => $validated['password']])) {
+            if(Auth::user()->activation_link != null){
+                Auth::logout();
+                return redirect()->route('users.show.login')->with('error', 'Account not activated');
+            }
             return redirect()->route('home')->with('success', 'Login successful');
         } else {
             return redirect()->route('users.show.login')->with('error', 'Invalid credentials');

@@ -3,10 +3,7 @@
 @section('content')
 <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
     <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Daftar Dompet</h2>
-        <a href="{{ route('wallets.create') }}" class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800">
-            <i data-lucide="plus" class="inline w-4 h-4 mr-1"></i> Tambah Dompet
-        </a>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Daftar Bank</h2>
     </div>
 
     <div class="overflow-x-auto">
@@ -14,9 +11,9 @@
             <thead class="bg-gray-100 dark:bg-gray-700 uppercase text-xs font-semibold">
                 <tr>
                     <th class="px-4 py-2">#</th>
-                    <th class="px-4 py-2">Nama Dompet</th>
-                    <th class="px-4 py-2">Tipe Dompet</th>
-                    <th class="px-4 py-2">Saldo</th>
+                    <th class="px-4 py-2">Nama Bank</th>
+                    <th class="px-4 py-2">Biaya Admin</th>
+                    <th class="px-4 py-2">Tanggal Pemotongan</th>
                     <th class="px-4 py-2">Aksi</th>
                 </tr>
             </thead>
@@ -25,16 +22,22 @@
                 <tr>
                     <td class="px-4 py-2">{{ $index + 1 }}</td>
                     <td class="px-4 py-2">{{ $wallet->name }}</td>
-                    <td class="px-4 py-2">{{ $wallet->wallet_type_name }}</td>
-                    <td class="px-4 py-2">Rp {{ number_format($wallet->balance, 0, ',', '.') }}</td>
-                    <td class="px-4 py-2 flex gap-2">
-                        <form action="" method="POST" onsubmit="return confirm('Yakin hapus?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:underline">
-                                <i data-lucide="trash-2" class="w-4 h-4 inline"></i> Hapus
-                            </button>
-                        </form>
+                    <td class="px-4 py-2">
+                        @if($wallet->admin_fee === null)
+                            -
+                        @elseif($wallet->admin_fee === 0)
+                            Free
+                        @else
+                            Rp.{{ number_format($wallet->nominal_admin_fee, 0, ',', '.') }}
+                        @endif
+                    </td>
+                    <td class="px-4 py-2">{{ $wallet->date_admin_fee }}</td>
+                    <td class="px-4 py-2">
+                        @if($wallet->admin_fee === null)
+                        <a href="{{ route('wallets.admin_fee.create', $wallet->id) }}" class="bg-green-700 text-white px-2 py-1 rounded hover:bg-green-800">
+                            <i data-lucide="plus" class="inline w-4 h-4"></i>
+                        </a>
+                        @endif
                     </td>
                 </tr>
                 @empty

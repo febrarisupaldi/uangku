@@ -13,9 +13,9 @@ class ReceivableController extends Controller
     public function index(): View
     {
         $receivables = DB::table('uangku.receivables')
-            ->join("uangku.wallets", "receivables.wallet_id", "=", "wallets.id")
-            ->join("uangku.users", "wallets.user_id", "=", "users.id")
-            ->join("uangku.wallet_types", "wallets.wallet_type_id", "=", "wallet_types.id")
+            ->join("uangku.payments", "receivables.payment_id", "=", "payments.id")
+            ->join("uangku.users", "payments.user_id", "=", "users.id")
+            ->join("uangku.payment_types", "payments.payment_type_id", "=", "payment_types.id")
             ->join("uangku.receivable_statuses", "receivables.receivable_status_id", "=", "receivable_statuses.id")
             ->select(
                 "receivables.id",
@@ -24,11 +24,11 @@ class ReceivableController extends Controller
                 "receivables.remaining_amount",
                 "receivables.start_date",
                 "receivables.description",
-                "wallet_types.name as wallet_type_name",
+                "payment_types.name as wallet_type_name",
                 "users.name as user_name",
                 "receivable_statuses.name as status_name"
             )
-            ->where("wallet_types.id", 7); // Assuming 6 is the wallet type for debts
+            ->where("payment_types.id", 7); // Assuming 7 is the payment type for receivables
         if (Auth::user()->user_category_id == 2) {
             $receivables = $receivables->where("users.id", "=", Auth::user()->id);
         }
@@ -46,8 +46,6 @@ class ReceivableController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'user_id'           => 'required|exists:users,id',
-            'wallet_type_id'    => 'required|numeric|in:7',
             'receivable_name'   => 'required|string|max:255',
             'receivable_amount' => 'required|numeric|min:0',
             'start_date'        => 'required|date|date_format:Y-m-d',
@@ -57,14 +55,14 @@ class ReceivableController extends Controller
 
         try {
             DB::transaction(function() use ($validated) {
-                $id = DB::table('uangku.wallets')
+                $id = DB::table('uangku.payments')
                         ->insertGetId([
-                            'user_id'           => $validated['user_id'],
-                            'wallet_type_id'    => $validated['wallet_type_id'], // Assuming 6 is the wallet type for debts
+                            'user_id'           => Auth::user()->id,
+                            'payment_type_id'    => 7, // Assuming 7 is the wallet type for receivables
                         ]);
 
                 DB::table('uangku.receivables')->insert([
-                    'wallet_id'         => $id,
+                    'payment_id'         => $id,
                     'name'              => $validated['receivable_name'],
                     'total_amount'      => $validated['receivable_amount'],
                     'remaining_amount'  => $validated['receivable_amount'],
@@ -80,9 +78,9 @@ class ReceivableController extends Controller
 
     public static function get_total_receivable_of_user(){
         return DB::table('uangku.receivables')
-            ->where(['user_id' => Auth::user()->id, 'wallet_type_id' => 7])
+            ->where(['user_id' => Auth::user()->id, 'payment_type_id' => 7])
             ->whereIn('receivable_status_id', ['A','P']) // Assuming 1 is the status for active receivables
-            ->join('uangku.wallets', 'wallets.id', '=', 'receivables.wallet_id')
+            ->join('uangku.payments', 'payments.id', '=', 'receivables.payment_id')
             ->sum('receivables.remaining_amount');
     }
 }

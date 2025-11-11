@@ -9,29 +9,43 @@ use App\Http\Controllers\ReceivableController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\SubscriptionsController;
+use Enqueue\AmqpExt\AmqpConnectionFactory;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('users.login');
 });
 
-Route::get('/login', [UserController::class, 'show_login_form'])
-->name('users.show.login');
-Route::get('/register', [
-    UserController::class,
-    'show_register_form'
-])->name('users.show.register');
-Route::post('/register', [
-    UserController::class,
-    'register'
-])->name('users.register');
-Route::post('/login', [
-    UserController::class,
-    'login'
-])->name('users.login');
+Route::get('/login', [UserController::class, 'show_login_form'])->name('users.show.login');
+Route::get('/activation/{activation_link}', [UserController::class,'activation_user'])->name('users.activation');
+Route::get('/register', [UserController::class,'show_register_form'])->name('users.show.register');
+Route::post('/register', [UserController::class,'register'])->name('users.register');
+Route::post('/login', [UserController::class,'login'])->name('users.login');
 Route::get('/check', [HomeController::class, 'check']);
 Route::get('/income', [IncomeController::class, 'getIncomeForSixMonths']);
+Route::get('/test-email', function () {
+    Mail::raw('Ini email percobaan dari Laravel menggunakan Mailtrap.', function ($message) {
+        $message->to('tes@example.com')
+                ->subject('Coba Kirim Email');
+    });
+
+    return 'Email sudah dikirim! Silakan cek inbox Mailtrap.';
+});
+Route::get('/test-rabbit', function(){
+            $factory = new AmqpConnectionFactory([
+            'dsn' => 'amqp://paldi:paldi@127.0.0.1:5672/',
+        ]);
+
+        try {
+            $context = $factory->createContext();
+            echo "✅ Connected to RabbitMQ\n";
+        } catch (\Exception $e) {
+            echo "❌ Failed: " . $e->getMessage() . "\n";
+        }
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -56,6 +70,21 @@ Route::middleware('auth')->group(function () {
         WalletController::class,
         'store'
     ])->name('wallets.store');
+
+    Route::get('/wallets/admin-fee', [
+        WalletController::class,
+        'admin_fee_index'
+    ])->name('wallets.admin_fee.index');
+
+    Route::get('/wallets/admin-fee/{id}', [
+        WalletController::class,
+        'admin_fee_create'
+    ])->name('wallets.admin_fee.create');
+
+    Route::put('/wallets/admin-fee/{id}', [
+        WalletController::class,
+        'admin_fee_store'
+    ])->name('wallets.admin_fee.store');
 
     Route::get('/incomes', [
         IncomeController::class,
@@ -130,6 +159,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
     Route::get('/expenses/create', [ExpenseController::class, 'create'])->name('expenses.create');
+    Route::post('/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
+    Route::get('/subscriptions', [SubscriptionsController::class, 'index'])->name('subscriptions.index');
+    Route::get('/subscriptions/{id}/history', [SubscriptionsController::class, 'history'])->name('subscriptions.history');
+    Route::get('/subscriptions/create', [SubscriptionsController::class, 'create'])->name('subscriptions.create');
+    Route::post('/subscriptions', [SubscriptionsController::class, 'store'])->name('subscriptions.store');
 });
 
 
