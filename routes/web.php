@@ -78,6 +78,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/wallets/admin-fee/{id}', [
         WalletController::class,
+        'admin_fee_show'
+    ])->name('wallets.admin_fee.show');
+
+    Route::get('/wallets/admin-fee/{id}/create', [
+        WalletController::class,
         'admin_fee_create'
     ])->name('wallets.admin_fee.create');
 
@@ -85,6 +90,11 @@ Route::middleware('auth')->group(function () {
         WalletController::class,
         'admin_fee_store'
     ])->name('wallets.admin_fee.store');
+
+    Route::put('/wallets/admin-fee/{id}/edit', [
+        WalletController::class,
+        'admin_fee_edit'
+    ])->name('wallets.admin_fee.edit');
 
     Route::get('/incomes', [
         IncomeController::class,

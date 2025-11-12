@@ -65,11 +65,9 @@
     </div>
 </div>
 <!-- Modal -->
-<div id="historyModal" 
-    class="fixed inset-0 hidden items-center justify-center z-50 backdrop-blur-sm bg-black/40">
+<div id="historyModal" class="fixed inset-0 hidden items-center justify-center z-50 backdrop-blur-sm bg-black/40">
     <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-xl shadow-2xl w-full max-w-2xl p-6 relative border border-white/20">
         <h2 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100" id="modalTitle">Riwayat Langganan</h2>
-
         <div class="overflow-x-auto">
             <table class="min-w-full text-sm text-left">
             <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
@@ -84,10 +82,11 @@
             </tbody>
         </table>
 
-        <div class="mt-4 flex justify-end">
-            <button onclick="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
-                Tutup
-            </button>
+            <div class="mt-4 flex justify-end">
+                <button onclick="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
+                    Tutup
+                </button>
+            </div>
         </div>
     </div>
 </div>

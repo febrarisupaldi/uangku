@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Brick\Math\BigInteger;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -33,6 +34,8 @@ class WalletController extends Controller
             $wallets = $wallets->get();
         return view('wallets.index', compact('wallets'));
     }
+
+    
 
     public function create(): View
     {
@@ -147,6 +150,26 @@ class WalletController extends Controller
         return view('wallets.admin-fee.index', compact('wallets'));
     }
 
+    public function admin_fee_show($id):JsonResponse{
+        $wallet = DB::table('uangku.payments')
+            ->join("uangku.users","payments.user_id","=","users.id")
+            ->join("uangku.payment_types","payments.payment_type_id","=","payment_types.id")
+            ->join("uangku.wallets","payments.id","=","wallets.payment_id")
+            ->select(
+                "payments.id",
+                "wallets.name",
+                "wallets.balance",
+                "wallets.admin_fee",
+                "wallets.nominal_admin_fee",
+                "wallets.date_admin_fee",
+                "payment_types.name as wallet_type_name",
+                "users.name as user_name")
+            ->whereIn("payment_types.id",[3])
+            ->where("payments.id", $id)
+            ->first();
+        return response()->json($wallet);
+    }
+
     public function admin_fee_create($id): View
     {
         $wallet = DB::table('uangku.payments')
@@ -191,6 +214,27 @@ class WalletController extends Controller
             return redirect()->route('wallets.admin_fee.index')->with('success', 'Biaya Admin berhasil ditambahkan');
         } catch (QueryException $e) {
             return redirect()->route('wallets.admin_fee.index')->with('error', 'Gagal Menambahkan Biaya Admin: ' . $e->getMessage());
+        }
+    }
+
+    public function admin_fee_edit(Request $request, $id): RedirectResponse
+    {
+        try {
+            $validated = $request->validate([
+                'nominal_admin_fee' => 'required|numeric|min:0',
+                'date_admin_fee'    => 'required|date_format:d'
+            ]);
+
+            DB::table('uangku.wallets')
+                ->where('payment_id', $id)
+                ->update([
+                    'nominal_admin_fee' => $validated['nominal_admin_fee'],
+                    'date_admin_fee' => $validated['date_admin_fee'],
+                ]);
+
+            return redirect()->route('wallets.admin_fee.index')->with('success', 'Biaya Admin berhasil diupdate');
+        } catch (QueryException $e) {
+            return redirect()->route('wallets.admin_fee.index')->with('error', 'Gagal Mengupdate Biaya Admin: ' . $e->getMessage());
         }
     }
 }
