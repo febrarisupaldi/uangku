@@ -157,7 +157,7 @@ class WalletController extends Controller
             ->join("uangku.wallets","payments.id","=","wallets.payment_id")
             ->select(
                 "payments.id",
-                "wallets.name",
+                "wallets.names",
                 "wallets.balance",
                 "wallets.admin_fee",
                 "wallets.nominal_admin_fee",

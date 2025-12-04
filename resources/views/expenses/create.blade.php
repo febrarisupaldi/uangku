@@ -124,6 +124,9 @@
         </div>
     </form>
 </div>
+
+@endsection
+@pushOnce('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const paymentSelect = document.getElementById("paymentSelect");
@@ -144,4 +147,4 @@
         paymentSelect.addEventListener("change", updateBalance);
     });
 </script>
-@endsection
+@endpushOnce

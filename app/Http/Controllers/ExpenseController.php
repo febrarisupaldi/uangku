@@ -74,29 +74,29 @@ class ExpenseController extends Controller
 
         try {
             [$type, $id] = explode(':', $request->payment_source);
-            if($type == "wallet")
-            {
-                $payment = DB::table("uangku.payments")
-                ->where("payments.id", $id)
-                    ->join("uangku.wallets", "payments.id", "=", "wallets.payment_id")
-                    ->value("wallets.payment_id");
-            }else if($type == "credit_card") {
-                $payment = DB::table("uangku.debts")
-                    ->where("debts.id", $id)
-                    ->join("uangku.payments", "debts.payment_id", "=", "payments.id")
-                    ->join("uangku.credit_cards", "debts.id", "=", "credit_cards.debt_id")
-                    ->value("debts.payment_id");
-            }
-            DB::transaction(function() use ($validated, $payment, $type, $id) {
+            // if($type == "wallet")
+            // {
+            //     $payment = DB::table("uangku.payments")
+            //         ->where("payments.id", $id)
+            //         ->join("uangku.wallets", "payments.id", "=", "wallets.payment_id")
+            //         ->value("wallets.payment_id");
+            // }else if($type == "credit_card") {
+            //     $payment = DB::table("uangku.debts")
+            //         ->where("debts.id", $id)
+            //         ->join("uangku.payments", "debts.payment_id", "=", "payments.id")
+            //         ->join("uangku.credit_cards", "debts.id", "=", "credit_cards.debt_id")
+            //         ->value("debts.payment_id");
+            // }
+            DB::transaction(function() use ($validated, $type, $id) {
                 // Insert into expenses table
                 DB::table('uangku.expenses')->insert([
                     'user_id' => Auth::user()->id,
-                    'payment_id' => $payment,
+                    'payment_id' => $id,
                     'expense_category_id' => $validated['expense_category'],
                     'expense_title' => $validated['expense_title'],
                     'expense_amount' => $validated['expense_amount'],
                     'expense_date' => $validated['expense_date'],
-                    'description' => $validated['expense_description'] ?? null,
+                    'description' => $validated['expense_description'],
                 ]);
 
                 if($type == "wallet") {
@@ -108,7 +108,7 @@ class ExpenseController extends Controller
                     // Increase the remaining amount on the credit card (debt)
                     DB::table('uangku.debts')
                         ->where('payment_id', $id)
-                        ->increment('remaining_amount', $validated['expense_amount']);
+                        ->decrement('remaining_amount', $validated['expense_amount']);
                 }
             }, 5); // Retry up to 5 times on deadlock
 

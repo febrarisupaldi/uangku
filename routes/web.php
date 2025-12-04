@@ -131,6 +131,16 @@ Route::middleware('auth')->group(function () {
         'store'
     ])->name('debts.store');
 
+    Route::get('/debts/payments', [
+        DebtController::class,
+        'debt_payment_index'
+    ])->name('debts.payments.index');
+
+    Route::get('/debts/payments/new', [
+        DebtController::class,
+        'debt_payment_create'
+    ])->name('debts.payments.create');
+
     Route::post('/logout', function () {
         Auth::logout();
         return redirect()->route('users.show.login');

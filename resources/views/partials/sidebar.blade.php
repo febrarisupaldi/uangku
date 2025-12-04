@@ -44,12 +44,29 @@
             <div id="submenu-transaction" class="submenu hidden ml-10 mt-1 space-y-1 overflow-hidden transition-all">
                 <a href="/incomes" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="banknote-arrow-down" class="w-4 h-4"></i> Pemasukan</a>
                 <a href="/expenses" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="banknote-arrow-up" class="w-4 h-4"></i>Pengeluaran</a>
-                <a href="/subscriptions" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="repeat-2" class="w-4 h-4"></i>Berlangganan</a>
+                
                 <a href="/transfers" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="refresh-ccw" class="w-4 h-4"></i>Mutasi Kas</a>
+                
+                <a href="/debts/payments" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="circle-dollar-sign" class="w-4 h-4"></i>Bayar Hutang</a>
+                <a href="/receivables/payments" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="coins" class="w-4 h-4"></i>Terima Piutang</a>
+                <a href="/invests/create" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="badge-plus" class="w-4 h-4"></i>Tambah Investasi</a>
+            </div>
+        </div>
+
+        <div>
+            <button onclick="toggleSubmenu('submenu-subscription', this)" class="w-full flex items-center justify-between gap-3 py-2 px-4 rounded hover:bg-green-600 focus:outline-none hover:cursor-pointer">
+            <div class="flex items-center gap-3">
+                <i data-lucide="repeat-1" class="w-5 h-5"></i>
+                <span class="sidebar-label">Rutin</span>
+            </div>
+            <div class="sidebar-label flex items-center">
+                <i data-lucide="chevron-down" class="w-4 h-4 icon-down"></i>
+                <i data-lucide="chevron-up" class="w-4 h-4 icon-up hidden"></i>
+            </div>
+            </button>
+            <div id="submenu-subscription" class="submenu hidden ml-10 mt-1 space-y-1 overflow-hidden transition-all">
+                <a href="/subscriptions" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="repeat-2" class="w-4 h-4"></i>Berlangganan</a>
                 <a href="/wallets/admin-fee" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="dollar-sign" class="w-4 h-4"></i>Biaya Admin</a>
-                <a href="/debt-payments" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="circle-dollar-sign" class="w-4 h-4"></i>Bayar Hutang</a>
-                <a href="/debt-payments" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="coins" class="w-4 h-4"></i>Terima Piutang</a>
-                <a href="/debt-payments" class="flex items-center gap-2 text-md py-1 px-2 rounded hover:bg-green-600"><i data-lucide="badge-plus" class="w-4 h-4"></i>Tambah Investasi</a>
             </div>
         </div>
 

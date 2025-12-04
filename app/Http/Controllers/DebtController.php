@@ -86,6 +86,39 @@ class DebtController extends Controller
         }
     }
 
+    public function debt_payment_index(): View
+    {
+        $debts = DB::table("uangku.debt_payments")
+            ->join("uangku.debts", "debt_payments.debt_id", "=", "debts.id")
+            ->join("uangku.wallets", "debt_payments.wallet_id", "=", "wallets.id")
+            ->select(
+                "debt_payments.id",
+                "debt_payments.title",
+                "debt_payments.payment_date",
+                "debt_payments.amount_paid",
+                "debts.name as debt_name",
+                "wallets.name as wallet_name"
+            )->get();
+
+        return view('debts.payments.index', compact('debts'));
+    }
+
+    public function debt_payment_create(): View
+    {
+        $debts = DB::table('uangku.debts')
+            ->where('debt_status_id', 'A') // Assuming 'A' is the status for active debts
+            ->join('uangku.payments', 'payments.id', '=', 'debts.payment_id')
+            ->select('debts.id', 'debts.name', 'debts.remaining_amount', 'payments.id as payment_id')
+            ->get();
+
+        $wallets = DB::table('uangku.wallets')
+            ->join('uangku.payments', 'payments.id', '=', 'wallets.payment_id')
+            ->select('wallets.id', 'wallets.name', 'wallets.balance')
+            ->get();
+
+        return view('debts.payments.create', compact('debts', 'wallets'));
+    }
+
     public static function get_total_debt_of_user(){
         return DB::table('uangku.debts')
             ->where(['user_id' => Auth::user()->id, 'payment_type_id' => 6])

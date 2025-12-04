@@ -65,7 +65,7 @@
         <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
             Update Biaya Admin Bank
         </h2>
-
+        <div id="errorMessage" class="hidden mb-4 p-3 bg-red-100 text-red-700 rounded"></div>
         <form method="POST" id="adminFeeForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
             @csrf
             @method('PUT')
@@ -119,6 +119,7 @@
         const content = document.getElementById('formModalContent');
         const bankName = document.getElementById('bank_name');
         document.getElementById('adminFeeForm').action = `/wallets/admin-fee/${id}/edit`;
+        const errorBox = document.getElementById('errorMessage');
         modal.classList.remove('hidden');
         setTimeout(() => content.classList.remove('scale-95'), 50);
         document.body.classList.add('overflow-hidden');
@@ -133,6 +134,9 @@
                 document.querySelector('input[name="date_admin_fee"]').value = data.date_admin_fee;
             })
             .catch(error => {
+                document.getElementById('adminFeeForm').hidden = true;
+                errorBox.textContent = 'Gagal memuat data. Silakan coba lagi.';
+                errorBox.classList.remove('hidden');
                 console.error('Error fetching wallet data:', error);
             });
     }
